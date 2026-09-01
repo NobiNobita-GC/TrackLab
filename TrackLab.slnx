@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="TrackLab.Client/TrackLab.Client.csproj" Id="bf148c83-3a1e-4c81-8837-153cb44e4aa4" />
-  <Project Path="TrackLab.Core/TrackLab.Core.csproj" />
-  <Project Path="TrackLab.Simulator/TrackLab.Simulator.csproj" Id="2948709f-31ce-4f3b-a31d-ab1cd22889b2" />
-  <Project Path="TrackLab.UI/TrackLab.UI.csproj" />
-</Solution>
