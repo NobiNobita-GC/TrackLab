@@ -6,10 +6,10 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 
 ## 功能概览
 
-- 展示热盘、冷盘和 Load Port 等设备模块
-- 查看并切换模块状态
+- 按设备布局展示热盘、冷盘、Load Port 和传输机械手等模块
+- 使用状态颜色展示模块运行状态，并可点击模块打开详情弹窗
 - 按模块查看 DI/DO 点位及当前值
-- 通过 JSON 配置应用菜单和对应 ViewModel
+- 通过 JSON 配置应用菜单，通过 XAML 配置设备布局
 - 提供共享控件、图标资源和主题资源
 - 提供独立的模拟器项目骨架，便于后续扩展设备仿真
 
@@ -29,7 +29,7 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 ```text
 TrackLab/
 ├─ TrackLab.Client/       # 主应用、页面、ViewModel 和启动数据
-│  ├─ Config/             # 菜单配置
+│  ├─ Config/             # 菜单配置与设备布局配置
 │  └─ View/               # 应用页面及对应 ViewModel
 ├─ TrackLab.Core/         # 模块、IO 和菜单等核心模型与管理器
 ├─ TrackLab.UI/           # 通用控件、转换器、图标与主题资源
@@ -104,13 +104,31 @@ TrackLab.Client/Config/MenuConfig.json
 
 构建时，菜单配置会复制到输出目录的 `Config` 文件夹。
 
+### 设备布局配置
+
+状态页的设备布局定义在：
+
+```text
+TrackLab.Client/Config/LayoutConfig.xaml
+```
+
+布局使用普通 WPF `Grid` 描述 Load Port、传输区和工艺模块的位置。运行时会读取其中的模块名称占位符，例如 `LP01`、`ROBOT01` 或 `HP01`，并替换为绑定对应模块数据的 `ModuleControl`。
+
+调整布局时需要注意：
+
+1. 占位 `TextBlock` 的文本必须与 `ModuleManager` 中注册的模块名称完全一致。
+2. 未找到对应模块的占位符会保留为普通文本。
+3. `LayoutConfig.xaml` 作为内容文件复制到输出目录，因此修改后需要重新构建或手动同步输出文件。
+4. 点击已匹配的模块控件会打开详情弹窗，展示模块名称、索引、类型和状态。
+
 ### 演示数据
 
 当前模块与 IO 演示数据在 `TrackLab.Client/Bootstrapper.cs` 的 `InitializeRuntimeData()` 中创建，包括：
 
-- 热盘：`HP01`、`HP02`
-- 冷盘：`CP01`
-- Load Port：`LP01`
+- 热盘：`HP01`～`HP10`
+- 冷盘：`CP01`～`CP06`
+- Load Port：`LP01`～`LP04`
+- 传输机械手：`ROBOT01`
 - 示例 DI/DO：WaferPresent、VacuumOK、VacuumValve、HeaterOn 等
 
 这些数据仅保存在进程内存中，应用重新启动后会恢复为初始值。
@@ -129,8 +147,8 @@ TrackLab.Client/Config/MenuConfig.json
 
 ## 当前状态
 
-- `TrackLab.Client`：可运行的主应用原型
-- `TrackLab.Core`：已包含模块、IO 和菜单管理基础实现
+- `TrackLab.Client`：可运行的主应用原型，已支持配置化设备布局和模块详情弹窗
+- `TrackLab.Core`：已包含热盘、冷盘、Load Port、机械手、IO 和菜单管理基础实现
 - `TrackLab.UI`：已包含模块控件、状态转换器、图标与主题
 - `TrackLab.Simulator`：仅有基础窗口，设备仿真逻辑待实现
 - 自动化测试：暂未建立测试项目
