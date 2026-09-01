@@ -32,5 +32,27 @@ namespace TrackLab.Client.View
 
             module.SetState(nextState);
         }
+
+        private ModuleBase? _selectedModule;
+
+        public ModuleBase? SelectedModule
+        {
+            get => _selectedModule;
+            set
+            {
+                if (_selectedModule == value)
+                {
+                    return;
+                }
+
+                _selectedModule = value;
+                NotifyOfPropertyChange(nameof(SelectedModule));
+            }
+        }
+
+        public void ModuleControlClick(ModuleBase module)
+        {
+            SelectedModule = module;
+        }
     }
 }

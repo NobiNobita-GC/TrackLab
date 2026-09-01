@@ -13,14 +13,24 @@
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <Button Width="160"
             Height="36"
             Margin="20,10"
             HorizontalAlignment="Left"
             Content="Change HP01 State"
             cal:Message.Attach="ChangeHp01State"/>
-        
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,10">
+            <TextBlock Text="Selected Module: "
+               FontSize="16"
+               FontWeight="SemiBold"/>
+
+            <TextBlock Text="{Binding SelectedModule.Name, TargetNullValue=-}"
+                       
+               FontSize="16"/>
+        </StackPanel>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Modules}" Margin="20">
                 <ItemsControl.ItemsPanel>
@@ -31,7 +41,10 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <control:ModuleControl ModuleEntity="{Binding}"/>
+                        <control:ModuleControl ModuleEntity="{Binding}"
+                               Cursor="Hand"
+                               cal:Action.TargetWithoutContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                               cal:Message.Attach="[Event MouseLeftButtonUp] = [Action ModuleControlClick($dataContext)]"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
