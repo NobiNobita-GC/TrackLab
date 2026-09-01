@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="TrackLab.UI.Control.ModuleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:convert="clr-namespace:TrackLab.UI.Converters">
+
+    <UserControl.Resources>
+        <convert:ModuleStatusConverter x:Key="ModuleStatusConverter"/>
+    </UserControl.Resources>
+
+    <Border Width="180"
+            Height="110"
+            Margin="8"
+            Padding="15"
+            Background="{Binding ModuleEntity.State,
+                                 RelativeSource={RelativeSource AncestorType=UserControl},
+                                 Converter={StaticResource ModuleStatusConverter}}"
+            BorderBrush="#D9DDE3"
+            BorderThickness="1"
+            CornerRadius="6">
+
+        <StackPanel>
+
+            <TextBlock Text="{Binding ModuleEntity.Name,
+                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       FontSize="18"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Text="{Binding ModuleEntity.Type,
+                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       Margin="0,8,0,0"
+                       Foreground="White"/>
+
+            <TextBlock Text="{Binding ModuleEntity.State,
+                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       Margin="0,6,0,0"
+                       Foreground="White"/>
+
+        </StackPanel>
+
+    </Border>
+</UserControl>
