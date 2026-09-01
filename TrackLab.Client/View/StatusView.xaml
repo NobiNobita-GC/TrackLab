@@ -9,12 +9,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Width="160" Height="36" Margin="20,10" HorizontalAlignment="Left" Content="Change HP01 State" cal:Message.Attach="ChangeHp01State"/>
-        <Grid Grid.Row="1" Background="#F5F6F8">
+        <Button Width="160" Height="36" Margin="20,10" HorizontalAlignment="Left" Content="Change HP01 State" cal:Message.Attach="ChangeHp01State"/>-->
+        <Grid Background="#F5F6F8">
             <ContentControl Content="{Binding Layout}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         </Grid>
     </Grid>
