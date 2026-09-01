@@ -5,11 +5,16 @@ using System.Windows.Markup;
 using TrackLab.Core.Modules;
 using TrackLab.UI.Common;
 using TrackLab.UI.Control;
+using Caliburn.Micro;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TrackLab.Client.View
 {
     public class StatusViewModel : ViewModelBase
     {
+        private readonly IWindowManager _windowManager = new WindowManager();
+
         private Grid? _layout;
 
         public Grid? Layout
@@ -68,7 +73,13 @@ namespace TrackLab.Client.View
                     {
                         ModuleEntity = module,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        Cursor = Cursors.Hand
+                    };
+
+                    moduleControl.MouseLeftButtonUp += async (_, _) =>
+                    {
+                        await OpenModuleDetail(module);
                     };
 
                     Grid.SetRow(moduleControl, Grid.GetRow(textBlock));
@@ -84,6 +95,12 @@ namespace TrackLab.Client.View
                     ReplaceModuleTextBlocks(childGrid);
                 }
             }
+        }
+        private async Task OpenModuleDetail(ModuleBase module)
+        {
+            ModuleDetailViewModel viewModel = new ModuleDetailViewModel(module);
+
+            await _windowManager.ShowDialogAsync(viewModel);
         }
         public IReadOnlyList<ModuleBase> Modules { get; }
 
