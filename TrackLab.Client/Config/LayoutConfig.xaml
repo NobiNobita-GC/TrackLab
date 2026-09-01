@@ -1,0 +1,157 @@
+﻿<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#F5F6F8"
+      Margin="10">
+
+    <Grid.Resources>
+        <Style x:Key="ModulePlaceholder" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="6"/>
+        </Style>
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="45"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1.3*"/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- 区域标题 -->
+    <TextBlock Grid.Row="0"
+               Grid.Column="0"
+               Text="LOAD PORT"
+               FontSize="15"
+               FontWeight="SemiBold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+    <TextBlock Grid.Row="0"
+               Grid.Column="1"
+               Text="TRANSFER"
+               FontSize="15"
+               FontWeight="SemiBold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+    <TextBlock Grid.Row="0"
+               Grid.Column="2"
+               Grid.ColumnSpan="4"
+               Text="PROCESS MODULE"
+               FontSize="15"
+               FontWeight="SemiBold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+
+    <!-- Load Port -->
+    <TextBlock Grid.Row="1" Grid.Column="0"
+               Text="LP01"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="2" Grid.Column="0"
+               Text="LP02"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="3" Grid.Column="0"
+               Text="LP03"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="4" Grid.Column="0"
+               Text="LP04"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+
+    <!-- Transfer Robot -->
+    <TextBlock Grid.Row="1"
+               Grid.RowSpan="4"
+               Grid.Column="1"
+               Text="ROBOT01"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+
+    <!-- 第一排 -->
+    <TextBlock Grid.Row="1" Grid.Column="2"
+               Text="HP01"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="1" Grid.Column="3"
+               Text="HP02"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="1" Grid.Column="4"
+               Text="HP03"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="1" Grid.Column="5"
+               Text="HP04"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+
+    <!-- 第二排 -->
+    <TextBlock Grid.Row="2" Grid.Column="2"
+               Text="HP05"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="2" Grid.Column="3"
+               Text="HP06"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="2" Grid.Column="4"
+               Text="CP01"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="2" Grid.Column="5"
+               Text="CP02"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+
+    <!-- 第三排 -->
+    <TextBlock Grid.Row="3" Grid.Column="2"
+               Text="CP03"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="3" Grid.Column="3"
+               Text="CP04"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="3" Grid.Column="4"
+               Text="HP07"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="3" Grid.Column="5"
+               Text="HP08"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+
+    <!-- 第四排 -->
+    <TextBlock Grid.Row="4" Grid.Column="2"
+               Text="HP09"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="4" Grid.Column="3"
+               Text="HP10"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="4" Grid.Column="4"
+               Text="CP05"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+    <TextBlock Grid.Row="4" Grid.Column="5"
+               Text="CP06"
+               Style="{StaticResource ModulePlaceholder}"/>
+
+</Grid>

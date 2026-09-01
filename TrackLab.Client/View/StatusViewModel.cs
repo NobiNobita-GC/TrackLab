@@ -1,10 +1,90 @@
-﻿using TrackLab.Core.Modules;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using TrackLab.Core.Modules;
 using TrackLab.UI.Common;
+using TrackLab.UI.Control;
 
 namespace TrackLab.Client.View
 {
     public class StatusViewModel : ViewModelBase
     {
+        private Grid? _layout;
+
+        public Grid? Layout
+        {
+            get => _layout;
+            private set
+            {
+                if (_layout == value)
+                {
+                    return;
+                }
+
+                _layout = value;
+                NotifyOfPropertyChange(nameof(Layout));
+            }
+        }
+        public override void Active()
+        {
+            base.Active();
+            LoadLayout();
+        }
+
+        private void LoadLayout()
+        {
+            string path = Path.Combine(AppContext.BaseDirectory, "Config", "LayoutConfig.xaml");
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("找不到 LayoutConfig.xaml", path);
+            }
+
+            using FileStream stream = File.OpenRead(path);
+
+            Grid layout = (Grid)XamlReader.Load(stream);
+
+            ReplaceModuleTextBlocks(layout);
+
+            Layout = layout;
+        }
+        private void ReplaceModuleTextBlocks(Grid grid)
+        {
+            for (int i = 0; i < grid.Children.Count; i++)
+            {
+                if (grid.Children[i] is TextBlock textBlock)
+                {
+                    string moduleName = textBlock.Text?.Trim() ?? "";
+
+                    ModuleBase? module = ModuleManager.Instance.GetByName(moduleName);
+
+                    if (module == null)
+                    {
+                        continue;
+                    }
+
+                    ModuleControl moduleControl = new ModuleControl
+                    {
+                        ModuleEntity = module,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
+
+                    Grid.SetRow(moduleControl, Grid.GetRow(textBlock));
+                    Grid.SetColumn(moduleControl, Grid.GetColumn(textBlock));
+                    Grid.SetRowSpan(moduleControl, Grid.GetRowSpan(textBlock));
+                    Grid.SetColumnSpan(moduleControl, Grid.GetColumnSpan(textBlock));
+
+                    grid.Children.RemoveAt(i);
+                    grid.Children.Insert(i, moduleControl);
+                }
+                else if (grid.Children[i] is Grid childGrid)
+                {
+                    ReplaceModuleTextBlocks(childGrid);
+                }
+            }
+        }
         public IReadOnlyList<ModuleBase> Modules { get; }
 
         public StatusViewModel()

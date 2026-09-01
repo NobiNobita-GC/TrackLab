@@ -25,10 +25,22 @@ namespace TrackLab.Client
             ModuleManager moduleManager = ModuleManager.Instance;
             IOManager ioManager = IOManager.Instance;
 
-            moduleManager.Add(new HotPlateModule(201, "HP01"));
-            moduleManager.Add(new HotPlateModule(202, "HP02"));
-            moduleManager.Add(new CoolPlateModule(301, "CP01"));
-            moduleManager.Add(new LoadPortModule(101, "LP01"));
+            for (int i = 1; i <= 4; i++)
+            {
+                moduleManager.Add(new LoadPortModule(100 + i, $"LP{i:00}"));
+            }
+
+            moduleManager.Add(new RobotModule(150, "ROBOT01"));
+
+            for (int i = 1; i <= 10; i++)
+            {
+                moduleManager.Add(new HotPlateModule(200 + i, $"HP{i:00}"));
+            }
+
+            for (int i = 1; i <= 6; i++)
+            {
+                moduleManager.Add(new CoolPlateModule(300 + i, $"CP{i:00}"));
+            }
 
             IOPoint waferPresent = new IOPoint(1, "WaferPresent", IOType.DI);
             waferPresent.SetValue(true);

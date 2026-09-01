@@ -7,9 +7,7 @@
         <convert:ModuleStatusConverter x:Key="ModuleStatusConverter"/>
     </UserControl.Resources>
 
-    <Border Width="180"
-            Height="110"
-            Margin="8"
+    <Border Margin="8"
             Padding="15"
             Background="{Binding ModuleEntity.State,
                                  RelativeSource={RelativeSource AncestorType=UserControl},

@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Config\LayoutConfig.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Config\LayoutConfig.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.230" />
   </ItemGroup>
 
@@ -21,6 +29,10 @@
     <None Update="Config\MenuConfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+	  
+	<None Include="Config\LayoutConfig.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 
 </Project>
