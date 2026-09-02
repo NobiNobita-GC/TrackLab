@@ -16,9 +16,34 @@ namespace TrackLab.Core.Modules
             Name = name;
         }
 
-        public void SetState(ModuleState state)
+        public bool Initialize()
         {
-            ChangeState(state);
-        }       
+            return ChangeState(ModuleState.Idle);
+        }
+
+        public bool Start()
+        {
+            return ChangeState(ModuleState.Running);
+        }
+
+        public bool Stop()
+        {
+            return ChangeState(ModuleState.Idle);
+        }
+
+        public bool RaiseAlarm()
+        {
+            return ChangeState(ModuleState.Alarm);
+        }
+
+        public bool Reset()
+        {
+            return ChangeState(ModuleState.Idle);
+        }
+
+        public bool Disable()
+        {
+            return ChangeState(ModuleState.Disabled);
+        }
     }
 }

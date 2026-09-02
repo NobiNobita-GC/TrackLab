@@ -23,9 +23,40 @@ namespace TrackLab.Core.StateMachine
             }
         }
 
-        protected void ChangeState(ModuleState state)
+        protected bool ChangeState(ModuleState newState)
         {
-            State = state;
+            if (!CanChangeState(State, newState))
+            {
+                return false;
+            }
+
+            State = newState;
+            return true;
+        }
+
+        private bool CanChangeState(ModuleState currentState, ModuleState newState)
+        {
+            return currentState switch
+            {
+                ModuleState.Unknown => newState == ModuleState.Idle,
+
+                ModuleState.Idle =>
+                    newState == ModuleState.Running ||
+                    newState == ModuleState.Alarm ||
+                    newState == ModuleState.Disabled,
+
+                ModuleState.Running =>
+                    newState == ModuleState.Idle ||
+                    newState == ModuleState.Alarm,
+
+                ModuleState.Alarm =>
+                    newState == ModuleState.Idle,
+
+                ModuleState.Disabled =>
+                    newState == ModuleState.Idle,
+
+                _ => false
+            };
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
