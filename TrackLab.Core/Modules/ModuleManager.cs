@@ -1,4 +1,7 @@
-﻿namespace TrackLab.Core.Modules
+﻿using System.IO;
+using System.Text.Json;
+
+namespace TrackLab.Core.Modules
 {
     public class ModuleManager
     {
@@ -41,6 +44,51 @@
         public IEnumerable<ModuleBase> GetByType(ModuleType type)
         {
             return _modules.Where(x => x.Type == type);
+        }
+
+        public void Load(string configPath)
+        {
+            if (!File.Exists(configPath))
+            {
+                throw new FileNotFoundException("ModuleConfig.json not found.", configPath);
+            }
+
+            string json = File.ReadAllText(configPath);
+
+            List<ModuleConfigEntity>? configs =
+                JsonSerializer.Deserialize<List<ModuleConfigEntity>>(json);
+
+            if (configs == null)
+            {
+                return;
+            }
+
+            _modules.Clear();
+
+            foreach (ModuleConfigEntity config in configs)
+            {
+                Type? moduleType = typeof(ModuleBase).Assembly.GetType(config.ClassName);
+
+                if (moduleType == null)
+                {
+                    throw new InvalidOperationException($"Module type not found: {config.ClassName}");
+                }
+
+                if (!typeof(ModuleBase).IsAssignableFrom(moduleType))
+                {
+                    throw new InvalidOperationException($"{config.ClassName} is not a ModuleBase.");
+                }
+
+                ModuleBase? module =
+                    Activator.CreateInstance(moduleType, config.Index, config.Name) as ModuleBase;
+
+                if (module == null)
+                {
+                    throw new InvalidOperationException($"Failed to create module: {config.Name}");
+                }
+
+                Add(module);
+            }
         }
     }
 }

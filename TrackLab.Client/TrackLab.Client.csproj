@@ -33,6 +33,10 @@
 	<None Include="Config\LayoutConfig.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
+
+	<None Update="Config\ModuleConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 
 </Project>

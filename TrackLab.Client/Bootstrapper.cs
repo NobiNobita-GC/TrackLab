@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System.IO;
 using System.Windows;
 using TrackLab.Client.View;
 using TrackLab.Core.IO;
@@ -25,22 +26,9 @@ namespace TrackLab.Client
             ModuleManager moduleManager = ModuleManager.Instance;
             IOManager ioManager = IOManager.Instance;
 
-            for (int i = 1; i <= 4; i++)
-            {
-                moduleManager.Add(new LoadPortModule(100 + i, $"LP{i:00}"));
-            }
+            string moduleConfigPath = Path.Combine(AppContext.BaseDirectory, "Config", "ModuleConfig.json");
 
-            moduleManager.Add(new RobotModule(150, "ROBOT01"));
-
-            for (int i = 1; i <= 10; i++)
-            {
-                moduleManager.Add(new HotPlateModule(200 + i, $"HP{i:00}"));
-            }
-
-            for (int i = 1; i <= 6; i++)
-            {
-                moduleManager.Add(new CoolPlateModule(300 + i, $"CP{i:00}"));
-            }
+            moduleManager.Load(moduleConfigPath);
 
             IOPoint waferPresent = new IOPoint(1, "WaferPresent", IOType.DI);
             waferPresent.SetValue(true);
