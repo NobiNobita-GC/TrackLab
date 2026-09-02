@@ -1,13 +1,14 @@
 ﻿<UserControl x:Class="TrackLab.Client.View.StatusView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:TrackLab.Client.View"
              xmlns:control="clr-namespace:TrackLab.UI.Control;assembly=TrackLab.UI"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <Grid>
         <!--<Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -15,7 +16,9 @@
         </Grid.RowDefinitions>
         <Button Width="160" Height="36" Margin="20,10" HorizontalAlignment="Left" Content="Change HP01 State" cal:Message.Attach="ChangeHp01State"/>-->
         <Grid Background="#F5F6F8">
-            <ContentControl Content="{Binding Layout}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+            <ContentControl Content="{Binding Layout}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>
