@@ -3,66 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Width="420"
              Height="280">
-
     <Grid Margin="24">
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="45" />
         </Grid.RowDefinitions>
-
         <TextBlock Grid.Row="0"
                    Text="Module Information"
                    FontSize="22"
-                   FontWeight="SemiBold"/>
-
+                   FontWeight="SemiBold" />
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal">
-
             <TextBlock Width="100"
                        Text="Name:"
-                       FontWeight="SemiBold"/>
-
-            <TextBlock Text="{Binding Module.Name}"/>
-
+                       FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Module.Name}" />
         </StackPanel>
-
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal">
-
             <TextBlock Width="100"
                        Text="Index:"
-                       FontWeight="SemiBold"/>
-
-            <TextBlock Text="{Binding Module.Index}"/>
-
+                       FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Module.Index}" />
         </StackPanel>
-
         <StackPanel Grid.Row="3"
                     Orientation="Horizontal">
-
             <TextBlock Width="100"
                        Text="Type:"
-                       FontWeight="SemiBold"/>
-
-            <TextBlock Text="{Binding Module.Type}"/>
-
+                       FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Module.Type}" />
         </StackPanel>
-
         <StackPanel Grid.Row="4"
                     Orientation="Horizontal">
-
             <TextBlock Width="100"
                        Text="State:"
-                       FontWeight="SemiBold"/>
-
-            <TextBlock Text="{Binding Module.State}"/>
-
+                       FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Module.State}" />
         </StackPanel>
-
     </Grid>
-
 </UserControl>
