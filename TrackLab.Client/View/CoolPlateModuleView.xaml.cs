@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace TrackLab.Client.View
 {
     /// <summary>
-    /// HotPlateView.xaml 的交互逻辑
+    /// CoolPlateModuleViewModel.xaml 的交互逻辑
     /// </summary>
-    public partial class HotPlateView : UserControl
+    public partial class CoolPlateModuleView : UserControl
     {
-        public HotPlateView()
+        public CoolPlateModuleView()
         {
             InitializeComponent();
         }

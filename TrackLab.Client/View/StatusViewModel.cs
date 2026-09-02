@@ -98,15 +98,27 @@ namespace TrackLab.Client.View
         }
         private async Task OpenModuleDetail(ModuleBase module)
         {
-            if (module.Type == ModuleType.HotPlate)
+            string viewModelName = $"{module.Type}ModuleViewModel";
+
+            string fullName = $"TrackLab.Client.View.{viewModelName}";
+
+            Type? viewModelType = typeof(StatusViewModel).Assembly.GetType(fullName);
+
+            if (viewModelType == null)
             {
-                HotPlateViewModel viewModel = new HotPlateViewModel(module);
-                await _windowManager.ShowDialogAsync(viewModel);
+                ModuleDetailViewModel detailViewModel = new ModuleDetailViewModel(module);
+                await _windowManager.ShowDialogAsync(detailViewModel);
                 return;
             }
 
-            ModuleDetailViewModel detailViewModel = new ModuleDetailViewModel(module);
-            await _windowManager.ShowDialogAsync(detailViewModel);
+            object? viewModel = Activator.CreateInstance(viewModelType, module);
+
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            await _windowManager.ShowDialogAsync(viewModel);
         }
 
         public IReadOnlyList<ModuleBase> Modules { get; }

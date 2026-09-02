@@ -3,11 +3,11 @@ using TrackLab.UI.Common;
 
 namespace TrackLab.Client.View
 {
-    public class HotPlateViewModel : ViewModelBase
+    public class HotPlateModuleViewModel : ViewModelBase
     {
         public ModuleBase Module { get; }
 
-        public HotPlateViewModel(ModuleBase module)
+        public HotPlateModuleViewModel(ModuleBase module)
         {
             Module = module;
             DisplayName = module.Name;
