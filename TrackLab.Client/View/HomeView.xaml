@@ -10,11 +10,13 @@
         <Border Background="#20252B">
             <TextBlock Text="TrackLab" Foreground="White" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" Margin="20,0" />
         </Border>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            
             <Border Background="#2B3038">
                 <Grid>
                     <ListBox x:Name="MenuList" ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMainMenu}" Background="#2B3038" BorderThickness="0" Margin="5">
@@ -55,6 +57,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    
                     <!--二级菜单-->
                     <Popup x:Name="MenuPopup" Placement="Right" StaysOpen="False" AllowsTransparency="True">
                         <Border Background="#363C45" Padding="5" CornerRadius="4">
@@ -97,6 +100,7 @@
                             </ListBox>
                         </Border>
                     </Popup>
+                    
                 </Grid>
             </Border>
             <ContentControl Grid.Column="1" cal:View.Model="{Binding CurrentView}" />
