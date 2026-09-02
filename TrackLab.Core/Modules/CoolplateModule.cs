@@ -1,12 +1,13 @@
-﻿namespace TrackLab.Core.Modules;
-
-public class CoolPlateModule : ModuleBase
+﻿namespace TrackLab.Core.Modules
 {
-    public CoolPlateModule(int index, string name) : base(index, name)
+    public class CoolPlateModule : ProcessModuleBase
     {
+        public override ModuleType Type => ModuleType.CoolPlate;
+
+        public CoolPlateModule(int index, string name) : base(index, name)
+        {
+        }
+
+        public double ActualTemperature { get; set; }
     }
-
-    public override ModuleType Type => ModuleType.CoolPlate;
-
-    public double ActualTemperature { get; set; }
 }

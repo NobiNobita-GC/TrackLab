@@ -1,11 +1,10 @@
-﻿namespace TrackLab.Core.Modules
-{
-    public class RobotModule : ModuleBase
-    {
-        public override ModuleType Type => ModuleType.Robot;
+﻿namespace TrackLab.Core.Modules;
 
-        public RobotModule(int index, string name) : base(index, name)
-        {
-        }
+public class RobotModule : RobotModuleBase
+{
+    public override ModuleType Type => ModuleType.Robot;
+
+    public RobotModule(int index, string name) : base(index, name)
+    {
     }
 }
