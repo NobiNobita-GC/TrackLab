@@ -11,5 +11,15 @@ namespace TrackLab.Core.Modules
         protected ProcessModuleBase(int index, string name) : base(index, name)
         {
         }
+
+        public bool StartProcess()
+        {
+            return ChangeState(ModuleState.Running);
+        }
+
+        public bool CompleteProcess()
+        {
+            return ChangeState(ModuleState.Idle);
+        }
     }
 }

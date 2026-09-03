@@ -12,5 +12,21 @@ namespace TrackLab.Client.View
             Module = module;
             DisplayName = module.Name;
         }
+
+        public void StartProcess()
+        {
+            if (Module is ProcessModuleBase processModule)
+            {
+                processModule.StartProcess();
+            }
+        }
+
+        public void CompleteProcess()
+        {
+            if (Module is ProcessModuleBase processModule)
+            {
+                processModule.CompleteProcess();
+            }
+        }
     }
 }

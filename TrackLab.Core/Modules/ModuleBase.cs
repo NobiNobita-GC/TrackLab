@@ -20,17 +20,7 @@ namespace TrackLab.Core.Modules
         {
             return ChangeState(ModuleState.Idle);
         }
-
-        public bool Start()
-        {
-            return ChangeState(ModuleState.Running);
-        }
-
-        public bool Stop()
-        {
-            return ChangeState(ModuleState.Idle);
-        }
-
+       
         public bool RaiseAlarm()
         {
             return ChangeState(ModuleState.Alarm);
