@@ -10,9 +10,11 @@ namespace TrackLab.Client
     public class Bootstrapper : BootstrapperBase
     { 
         public Bootstrapper()
-        {
+        {          
             Initialize();
         }
+
+
 
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
@@ -28,7 +30,11 @@ namespace TrackLab.Client
 
             string moduleConfigPath = Path.Combine(AppContext.BaseDirectory, "Config", "ModuleConfig.json");
 
+            // 反射创建对象并加载模块配置
             moduleManager.Load(moduleConfigPath);
+
+            // 初始化所有模块
+            moduleManager.InitializeAll();
 
             IOPoint waferPresent = new IOPoint(1, "WaferPresent", IOType.DI);
             waferPresent.SetValue(true);

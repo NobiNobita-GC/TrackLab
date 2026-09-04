@@ -31,6 +31,21 @@ namespace TrackLab.Core.Modules
             _modules.Add(module);
         }
 
+        public bool InitializeAll()
+        {
+            bool result = true;
+
+            foreach (ModuleBase module in _modules)
+            {
+                if (!module.Initialize())
+                {
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
         public ModuleBase? GetByIndex(int index)
         {
             return _modules.FirstOrDefault(x => x.Index == index);
