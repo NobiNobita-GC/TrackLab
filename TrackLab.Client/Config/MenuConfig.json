@@ -9,6 +9,10 @@
       {
         "Name": "Status",
         "ViewModelType": "TrackLab.Client.View.StatusViewModel"
+      },
+      {
+        "Name": "Alarm List",
+        "ViewModelType": "TrackLab.Client.View.AlarmViewModel"
       }
     ]  
   },
