@@ -9,12 +9,12 @@
 
             <ResourceDictionary.MergedDictionaries>
 
-                <ResourceDictionary Source="/TrackLab.UI;component/Geometry/VectorIcons.xaml"/>
+                <ResourceDictionary Source="/TrackLab.UI;component/Geometry/VectorIcons.xaml" />
 
-                <ResourceDictionary Source="/TrackLab.UI;component/Theme/MainColor.xaml"/>
+                <ResourceDictionary Source="/TrackLab.UI;component/Theme/MainColor.xaml" />
 
                 <ResourceDictionary>
-                    <local:Bootstrapper x:Key="bootstrapper"/>
+                    <local:Bootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
 
             </ResourceDictionary.MergedDictionaries>

@@ -1,7 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- All icons use a 24 x 24 coordinate system. -->
+    <!--  All icons use a 24 x 24 coordinate system.  -->
     <Geometry x:Key="HomePageIcon">
         M 2,11 L 12,2 22,11 22,22 14,22 14,15 10,15 10,22 2,22 Z
     </Geometry>

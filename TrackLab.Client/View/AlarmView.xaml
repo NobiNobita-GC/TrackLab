@@ -4,15 +4,15 @@
 
     <Grid Background="#F5F6F8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock Margin="20,0"
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontWeight="SemiBold"
-                   Text="Alarm"/>
+                   Text="Alarm" />
 
         <Border Grid.Row="1"
                 Margin="20"
@@ -24,7 +24,7 @@
                        VerticalAlignment="Center"
                        FontSize="18"
                        Foreground="#888888"
-                       Text="Alarm List"/>
+                       Text="Alarm List" />
 
         </Border>
     </Grid>

@@ -1,29 +1,45 @@
-﻿<UserControl x:Class="TrackLab.Client.View.HotPlateModuleView" 
+﻿<UserControl x:Class="TrackLab.Client.View.HotPlateModuleView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cal="http://www.caliburnproject.org"
-             Width="500" 
+             Width="500"
              Height="350">
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Hot Plate" FontSize="24" FontWeight="SemiBold"/>
-        <TextBlock Grid.Row="1" Text="{Binding Module.Name}" FontSize="18"/>
-        <TextBlock Grid.Row="2" Text="{Binding Module.Index, StringFormat=Index: {0}}"/>
-        <TextBlock Grid.Row="3" Text="{Binding Module.State, StringFormat=State: {0}}"/>
-        <TextBlock Grid.Row="4" Text="Temperature: -- °C"/>
+        <TextBlock Grid.Row="0"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Text="Hot Plate" />
+        <TextBlock Grid.Row="1"
+                   FontSize="18"
+                   Text="{Binding Module.Name}" />
+        <TextBlock Grid.Row="2" Text="{Binding Module.Index, StringFormat=Index: {0}}" />
+        <TextBlock Grid.Row="3" Text="{Binding Module.State, StringFormat=State: {0}}" />
+        <TextBlock Grid.Row="4" Text="Temperature: -- °C" />
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Width="110" Height="36" Margin="5" Content="Start Process" cal:Message.Attach="StartProcess"/>
-            <Button Width="110" Height="36" Margin="5" Content="Complete" cal:Message.Attach="CompleteProcess"/>
+        <StackPanel Grid.Row="5"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Width="110"
+                    Height="36"
+                    Margin="5"
+                    cal:Message.Attach="StartProcess"
+                    Content="Start Process" />
+            <Button Width="110"
+                    Height="36"
+                    Margin="5"
+                    cal:Message.Attach="CompleteProcess"
+                    Content="Complete" />
         </StackPanel>
     </Grid>
 </UserControl>

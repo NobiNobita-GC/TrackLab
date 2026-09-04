@@ -4,34 +4,29 @@
              xmlns:convert="clr-namespace:TrackLab.UI.Converters">
 
     <UserControl.Resources>
-        <convert:ModuleStatusConverter x:Key="ModuleStatusConverter"/>
+        <convert:ModuleStatusConverter x:Key="ModuleStatusConverter" />
     </UserControl.Resources>
 
     <Border Margin="8"
             Padding="15"
-            Background="{Binding ModuleEntity.State,
-                                 RelativeSource={RelativeSource AncestorType=UserControl},
-                                 Converter={StaticResource ModuleStatusConverter}}"
+            Background="{Binding ModuleEntity.State, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource ModuleStatusConverter}}"
             BorderBrush="#D9DDE3"
             BorderThickness="1"
             CornerRadius="6">
 
         <StackPanel>
 
-            <TextBlock Text="{Binding ModuleEntity.Name,
-                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       FontSize="18"
-                       FontWeight="SemiBold"/>
+            <TextBlock FontSize="18"
+                       FontWeight="SemiBold"
+                       Text="{Binding ModuleEntity.Name, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
-            <TextBlock Text="{Binding ModuleEntity.Type,
-                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       Margin="0,8,0,0"
-                       Foreground="White"/>
+            <TextBlock Margin="0,8,0,0"
+                       Foreground="White"
+                       Text="{Binding ModuleEntity.Type, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
-            <TextBlock Text="{Binding ModuleEntity.State,
-                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       Margin="0,6,0,0"
-                       Foreground="White"/>
+            <TextBlock Margin="0,6,0,0"
+                       Foreground="White"
+                       Text="{Binding ModuleEntity.State, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
         </StackPanel>
 
