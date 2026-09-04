@@ -1,19 +1,22 @@
 # TrackLab
 
-TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用于展示模块运行状态、查看数字量输入/输出（DI/DO），并探索模块化桌面应用的组织方式。
+TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用于配置设备模块、展示模块运行状态、查看数字量输入/输出（DI/DO），并探索模块化桌面应用的组织方式。
 
 项目采用 Caliburn.Micro 实现 MVVM 与页面导航，使用独立的 Core、UI、Client 和 Simulator 项目划分领域逻辑、通用界面和可执行程序。
 
 ## 功能概览
 
-- 按设备布局展示热盘、冷盘、Load Port 和传输机械手等模块
-- 使用状态颜色展示模块运行状态，并可点击模块打开详情弹窗
+- 按设备布局展示热板、冷板、Load Port 和传输机械手等模块
+- 通过 JSON 配置和反射动态创建模块实例
+- 使用有限状态机管理模块的 Idle、Running、Alarm 和 Disabled 状态流转
+- 使用状态颜色展示模块运行状态，并按模块类型打开对应详情弹窗
 - 按模块查看 DI/DO 点位及当前值
-- 通过 JSON 配置应用菜单，通过 XAML 配置设备布局
+- 通过 JSON 配置应用菜单和模块，通过 XAML 配置设备布局
+- 提供 Alarm List 页面骨架，便于后续接入告警数据
 - 提供共享控件、图标资源和主题资源
 - 提供独立的模拟器项目骨架，便于后续扩展设备仿真
 
-> 当前项目处于原型开发阶段。模块和 IO 数据由客户端启动时在内存中初始化，尚未接入真实设备、数据库或持久化配置。
+> 当前项目处于原型开发阶段。模块定义来自本地配置文件，模块状态和 IO 数据仍保存在内存中，尚未接入真实设备、数据库或持久化运行数据。
 
 ## 技术栈
 
@@ -23,15 +26,16 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 | WPF | Windows 桌面界面 |
 | Caliburn.Micro 4.0.230 | MVVM、视图定位和生命周期管理 |
 | Newtonsoft.Json 13.0.4 | 菜单配置反序列化 |
+| System.Text.Json | 模块配置反序列化 |
 
 ## 项目结构
 
 ```text
 TrackLab/
 ├─ TrackLab.Client/       # 主应用、页面、ViewModel 和启动数据
-│  ├─ Config/             # 菜单配置与设备布局配置
+│  ├─ Config/             # 菜单、模块和设备布局配置
 │  └─ View/               # 应用页面及对应 ViewModel
-├─ TrackLab.Core/         # 模块、IO 和菜单等核心模型与管理器
+├─ TrackLab.Core/         # 模块、状态机、IO 和菜单等核心逻辑
 ├─ TrackLab.UI/           # 通用控件、转换器、图标与主题资源
 ├─ TrackLab.Simulator/    # 设备模拟器项目（当前为基础骨架）
 └─ TrackLab.sln           # Visual Studio 解决方案
@@ -104,6 +108,33 @@ TrackLab.Client/Config/MenuConfig.json
 
 构建时，菜单配置会复制到输出目录的 `Config` 文件夹。
 
+### 模块配置
+
+设备模块定义在：
+
+```text
+TrackLab.Client/Config/ModuleConfig.json
+```
+
+每个模块配置包含唯一索引、模块名称和完整类型名：
+
+```json
+{
+  "Index": 201,
+  "Name": "HP01",
+  "ClassName": "TrackLab.Core.Modules.HotPlateModule"
+}
+```
+
+客户端启动时，`ModuleManager` 读取配置，通过反射创建模块，并调用 `InitializeAll()` 将模块初始化为 `Idle`。配置中的类型必须继承 `ModuleBase`，并提供 `(int index, string name)` 构造函数；模块索引和名称不能重复。
+
+当前配置包含：
+
+- 热板：`HP01`～`HP10`
+- 冷板：`CP01`～`CP06`
+- Load Port：`LP01`～`LP04`
+- 传输机械手：`ROBOT01`
+
 ### 设备布局配置
 
 状态页的设备布局定义在：
@@ -119,26 +150,44 @@ TrackLab.Client/Config/LayoutConfig.xaml
 1. 占位 `TextBlock` 的文本必须与 `ModuleManager` 中注册的模块名称完全一致。
 2. 未找到对应模块的占位符会保留为普通文本。
 3. `LayoutConfig.xaml` 作为内容文件复制到输出目录，因此修改后需要重新构建或手动同步输出文件。
-4. 点击已匹配的模块控件会打开详情弹窗，展示模块名称、索引、类型和状态。
+4. 点击已匹配的模块控件会按模块类型查找对应 ViewModel；没有专属页面时使用通用详情弹窗。
 
-### 演示数据
+### IO 演示数据
 
-当前模块与 IO 演示数据在 `TrackLab.Client/Bootstrapper.cs` 的 `InitializeRuntimeData()` 中创建，包括：
+当前 IO 演示数据仍在 `TrackLab.Client/Bootstrapper.cs` 的 `InitializeRuntimeData()` 中创建，包括：
 
-- 热盘：`HP01`～`HP10`
-- 冷盘：`CP01`～`CP06`
-- Load Port：`LP01`～`LP04`
-- 传输机械手：`ROBOT01`
 - 示例 DI/DO：WaferPresent、VacuumOK、VacuumValve、HeaterOn 等
 
 这些数据仅保存在进程内存中，应用重新启动后会恢复为初始值。
 
+## 模块架构
+
+模块按职责划分为三类抽象基类：
+
+- `ProcessModuleBase`：工艺模块基类，提供开始和完成工艺操作；热板和冷板继承该类型。
+- `CarrierModuleBase`：载具模块基类；Load Port 继承该类型。
+- `RobotModuleBase`：机械手模块基类；传输机械手继承该类型。
+
+所有模块最终继承 `ModuleBase`，而 `ModuleBase` 继承有限状态机 `FSM`。当前允许的状态流转为：
+
+```text
+Unknown  -> Idle
+Idle     -> Running | Alarm | Disabled
+Running  -> Idle | Alarm
+Alarm    -> Idle
+Disabled -> Idle
+```
+
+`HotPlateModuleViewModel` 已提供工艺开始与完成操作；冷板和其他模块的专属交互仍在逐步完善。
+
 ## 开发约定
 
 - 领域模型和业务状态放在 `TrackLab.Core`。
+- 模块状态流转通过 `FSM` 和模块公开方法完成，避免直接修改状态。
 - 可复用控件、主题、图标和转换器放在 `TrackLab.UI`。
 - 具体页面和应用级交互放在 `TrackLab.Client`。
 - View 与 ViewModel 使用 Caliburn.Micro 的命名约定进行匹配。
+- 新增模块类型时同步添加模块实现、`ModuleConfig.json` 配置；需要专属详情页时使用 `{ModuleType}ModuleViewModel` 命名。
 - 提交代码前至少执行一次：
 
   ```powershell
@@ -147,8 +196,8 @@ TrackLab.Client/Config/LayoutConfig.xaml
 
 ## 当前状态
 
-- `TrackLab.Client`：可运行的主应用原型，已支持配置化设备布局和模块详情弹窗
-- `TrackLab.Core`：已包含热盘、冷盘、Load Port、机械手、IO 和菜单管理基础实现
+- `TrackLab.Client`：可运行的主应用原型，已支持配置化设备布局、模块专属详情弹窗、硬件监视页和告警页骨架
+- `TrackLab.Core`：已包含模块反射创建、模块分层、有限状态机、IO 和菜单管理基础实现
 - `TrackLab.UI`：已包含模块控件、状态转换器、图标与主题
 - `TrackLab.Simulator`：仅有基础窗口，设备仿真逻辑待实现
 - 自动化测试：暂未建立测试项目
@@ -156,7 +205,8 @@ TrackLab.Client/Config/LayoutConfig.xaml
 ## 后续方向
 
 - 接入真实设备通信或统一的设备抽象层
-- 将启动演示数据迁移到配置或持久化存储
+- 将 IO 和运行状态迁移到配置或持久化存储
 - 完善 Simulator 与客户端之间的数据交互
+- 接入真实告警数据，完善 Alarm List 的查询、确认和清除流程
 - 增加日志、异常处理和运行状态诊断
 - 为 Core 层补充单元测试
