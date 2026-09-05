@@ -32,23 +32,35 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 
 ```text
 TrackLab/
-├─ TrackLab.Client/       # 主应用、页面、ViewModel 和启动数据
-│  ├─ Config/             # 菜单、模块和设备布局配置
-│  └─ View/               # 应用页面及对应 ViewModel
-├─ TrackLab.Core/         # 模块、状态机、IO 和菜单等核心逻辑
-├─ TrackLab.UI/           # 通用控件、转换器、图标与主题资源
-├─ TrackLab.Simulator/    # 设备模拟器项目（当前为基础骨架）
-└─ TrackLab.sln           # Visual Studio 解决方案
+├─ Framework/                  # 公共框架（解决方案中同名分组）
+│  ├─ Core/                    # 模块基类、状态机、IO 和菜单管理
+│  │  └─ Core.csproj
+│  └─ UI/                      # 通用控件、Converts、图标与主题
+│     └─ UI.csproj
+├─ TrackLabClient/             # 主应用
+│  ├─ Config/                  # 菜单、模块和设备布局配置
+│  ├─ Modules/                 # 具体设备模块
+│  │  ├─ HotPlate/             # 热板
+│  │  ├─ Cool/                 # 冷板
+│  │  ├─ LoadPort/             # Load Port
+│  │  └─ Robot/                # 机械手
+│  ├─ View/
+│  │  ├─ Status/               # 状态页及模块详情
+│  │  ├─ Configuration/        # 硬件监视
+│  │  └─ Log/                  # 告警页
+│  └─ TrackLabClient.csproj
+├─ TrackLabSimulator/          # 设备模拟器骨架，窗口位于 View/
+└─ TrackLab.sln                # Visual Studio 解决方案
 ```
 
 ### 项目依赖关系
 
 ```text
-TrackLab.Client ──────┬──> TrackLab.Core
-                      └──> TrackLab.UI ───> TrackLab.Core
+TrackLabClient ──────┬──> Core
+                      └──> UI ───> Core
 
-TrackLab.Simulator ───┬──> TrackLab.Core
-                      └──> TrackLab.UI
+TrackLabSimulator ───┬──> Core
+                      └──> UI
 ```
 
 ## 环境要求
@@ -76,10 +88,12 @@ dotnet build TrackLab.sln
 ### 3. 运行客户端
 
 ```powershell
-dotnet run --project .\TrackLab.Client\TrackLab.Client.csproj
+dotnet run --project .\TrackLabClient\TrackLabClient.csproj
 ```
 
-也可以使用 Visual Studio 打开 `TrackLab.sln`，将 `TrackLab.Client` 设置为启动项目后运行。
+也可以使用 Visual Studio 打开 `TrackLab.sln`，将 `TrackLabClient` 设置为启动项目后运行。
+
+目录调整后，请重新打开解决方案并重新选择启动项目。公共项目在解决方案的 `Framework` 分组下，项目及命名空间分别为 `Core`、`UI`；客户端和模拟器分别为 `TrackLabClient`、`TrackLabSimulator`。
 
 ## 配置说明
 
@@ -88,7 +102,7 @@ dotnet run --project .\TrackLab.Client\TrackLab.Client.csproj
 客户端菜单定义在：
 
 ```text
-TrackLab.Client/Config/MenuConfig.json
+TrackLabClient/Config/MenuConfig.json
 ```
 
 每个可打开的菜单项通过 `ViewModelType` 指向客户端程序集中的完整 ViewModel 类型名：
@@ -96,13 +110,13 @@ TrackLab.Client/Config/MenuConfig.json
 ```json
 {
   "Name": "Status",
-  "ViewModelType": "TrackLab.Client.View.StatusViewModel"
+  "ViewModelType": "TrackLabClient.View.Status.StatusViewModel"
 }
 ```
 
 添加页面时需要：
 
-1. 在 `TrackLab.Client/View` 中创建配对的 `XxxView.xaml` 和 `XxxViewModel.cs`。
+1. 在 `TrackLabClient/View` 对应的功能子目录中创建配对的 `XxxView.xaml` 和 `XxxViewModel.cs`。
 2. 确保 ViewModel 可通过无参构造函数创建。
 3. 在 `MenuConfig.json` 中填写完整的 ViewModel 类型名。
 
@@ -113,7 +127,7 @@ TrackLab.Client/Config/MenuConfig.json
 设备模块定义在：
 
 ```text
-TrackLab.Client/Config/ModuleConfig.json
+TrackLabClient/Config/ModuleConfig.json
 ```
 
 每个模块配置包含唯一索引、模块名称和完整类型名：
@@ -122,11 +136,11 @@ TrackLab.Client/Config/ModuleConfig.json
 {
   "Index": 201,
   "Name": "HP01",
-  "ClassName": "TrackLab.Core.Modules.HotPlateModule"
+  "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
 }
 ```
 
-客户端启动时，`ModuleManager` 读取配置，通过反射创建模块，并调用 `InitializeAll()` 将模块初始化为 `Idle`。配置中的类型必须继承 `ModuleBase`，并提供 `(int index, string name)` 构造函数；模块索引和名称不能重复。
+客户端启动时，`Bootstrapper` 将客户端程序集传入 `ModuleManager.Load`，管理器读取配置，通过反射创建模块，并调用 `InitializeAll()` 将模块初始化为 `Idle`。配置中的类型必须继承 `ModuleBase`，并提供 `(int index, string name)` 构造函数；模块索引和名称不能重复。
 
 当前配置包含：
 
@@ -140,7 +154,7 @@ TrackLab.Client/Config/ModuleConfig.json
 状态页的设备布局定义在：
 
 ```text
-TrackLab.Client/Config/LayoutConfig.xaml
+TrackLabClient/Config/LayoutConfig.xaml
 ```
 
 布局使用普通 WPF `Grid` 描述 Load Port、传输区和工艺模块的位置。运行时会读取其中的模块名称占位符，例如 `LP01`、`ROBOT01` 或 `HP01`，并替换为绑定对应模块数据的 `ModuleControl`。
@@ -154,7 +168,7 @@ TrackLab.Client/Config/LayoutConfig.xaml
 
 ### IO 演示数据
 
-当前 IO 演示数据仍在 `TrackLab.Client/Bootstrapper.cs` 的 `InitializeRuntimeData()` 中创建，包括：
+当前 IO 演示数据仍在 `TrackLabClient/Bootstrapper.cs` 的 `InitializeRuntimeData()` 中创建，包括：
 
 - 示例 DI/DO：WaferPresent、VacuumOK、VacuumValve、HeaterOn 等
 
@@ -162,7 +176,9 @@ TrackLab.Client/Config/LayoutConfig.xaml
 
 ## 模块架构
 
-模块按职责划分为三类抽象基类：
+目录组织参考 Rubi：公共能力放入 `Framework`，具体设备实现放入 `TrackLabClient/Modules`，页面按功能分组。公共框架不引用客户端，模块加载时由客户端显式提供实现程序集。
+
+模块基类位于 `Framework/Core/Modules`，按职责划分为三类：
 
 - `ProcessModuleBase`：工艺模块基类，提供开始和完成工艺操作；热板和冷板继承该类型。
 - `CarrierModuleBase`：载具模块基类；Load Port 继承该类型。
@@ -182,12 +198,12 @@ Disabled -> Idle
 
 ## 开发约定
 
-- 领域模型和业务状态放在 `TrackLab.Core`。
+- 通用模型、模块基类和状态机放在 `Framework/Core`；具体设备实现放在 `TrackLabClient/Modules`。
 - 模块状态流转通过 `FSM` 和模块公开方法完成，避免直接修改状态。
-- 可复用控件、主题、图标和转换器放在 `TrackLab.UI`。
-- 具体页面和应用级交互放在 `TrackLab.Client`。
+- 可复用控件、主题、图标和转换器放在 `Framework/UI`。
+- 具体页面和应用级交互放在 `TrackLabClient`。
 - View 与 ViewModel 使用 Caliburn.Micro 的命名约定进行匹配。
-- 新增模块类型时同步添加模块实现、`ModuleConfig.json` 配置；需要专属详情页时使用 `{ModuleType}ModuleViewModel` 命名。
+- 新增模块类型时同步添加模块实现、`ModuleConfig.json` 配置；需要专属详情页时在 `TrackLabClient/View/Status` 中使用 `{ModuleType}ModuleViewModel` 命名，并提供接收模块实例的构造函数。
 - 提交代码前至少执行一次：
 
   ```powershell
@@ -196,10 +212,10 @@ Disabled -> Idle
 
 ## 当前状态
 
-- `TrackLab.Client`：可运行的主应用原型，已支持配置化设备布局、模块专属详情弹窗、硬件监视页和告警页骨架
-- `TrackLab.Core`：已包含模块反射创建、模块分层、有限状态机、IO 和菜单管理基础实现
-- `TrackLab.UI`：已包含模块控件、状态转换器、图标与主题
-- `TrackLab.Simulator`：仅有基础窗口，设备仿真逻辑待实现
+- `TrackLabClient`：可运行的主应用原型，已支持配置化设备布局、模块专属详情弹窗、硬件监视页和告警页骨架
+- `Core`：已包含模块反射创建、模块分层、有限状态机、IO 和菜单管理基础实现
+- `UI`：已包含模块控件、状态转换器、图标与主题
+- `TrackLabSimulator`：仅有基础窗口，设备仿真逻辑待实现
 - 自动化测试：暂未建立测试项目
 
 ## 后续方向

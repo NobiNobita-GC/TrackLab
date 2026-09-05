@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <SolidColorBrush x:Key="ModuleUnknownColor" Color="#88948B"/>
-    <SolidColorBrush x:Key="ModuleIdleColor" Color="#106B57"/>
-    <SolidColorBrush x:Key="ModuleRunningColor" Color="Green"/>
-    <SolidColorBrush x:Key="ModuleAlarmColor" Color="#FF4D4F"/>
-    <SolidColorBrush x:Key="ModuleDisabledColor" Color="#808080"/>
-</ResourceDictionary>

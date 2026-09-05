@@ -2,13 +2,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLab.Client", "TrackLab.Client\TrackLab.Client.csproj", "{BF148C83-3A1E-4C81-8837-153CB44E4AA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLabClient", "TrackLabClient\TrackLabClient.csproj", "{BF148C83-3A1E-4C81-8837-153CB44E4AA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLab.Core", "TrackLab.Core\TrackLab.Core.csproj", "{2DC886D9-E274-4A5C-BE4D-2FDBF08DAD8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Framework\Core\Core.csproj", "{2DC886D9-E274-4A5C-BE4D-2FDBF08DAD8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLab.Simulator", "TrackLab.Simulator\TrackLab.Simulator.csproj", "{2948709F-31CE-4F3B-A31D-AB1CD22889B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLabSimulator", "TrackLabSimulator\TrackLabSimulator.csproj", "{2948709F-31CE-4F3B-A31D-AB1CD22889B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackLab.UI", "TrackLab.UI\TrackLab.UI.csproj", "{DF293649-C7C8-443E-B96E-EECAC3519ABA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "Framework\UI\UI.csproj", "{DF293649-C7C8-443E-B96E-EECAC3519ABA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{47E2CDE7-41C2-4A73-9BCC-53D521E1A930}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{DF293649-C7C8-443E-B96E-EECAC3519ABA}.Release|x64.Build.0 = Release|Any CPU
 		{DF293649-C7C8-443E-B96E-EECAC3519ABA}.Release|x86.ActiveCfg = Release|Any CPU
 		{DF293649-C7C8-443E-B96E-EECAC3519ABA}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DC886D9-E274-4A5C-BE4D-2FDBF08DAD8C} = {47E2CDE7-41C2-4A73-9BCC-53D521E1A930}
+		{DF293649-C7C8-443E-B96E-EECAC3519ABA} = {47E2CDE7-41C2-4A73-9BCC-53D521E1A930}
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

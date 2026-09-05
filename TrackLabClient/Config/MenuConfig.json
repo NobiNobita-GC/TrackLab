@@ -1,0 +1,28 @@
+[
+  {
+    "Name": "Home Page",
+    "ViewModelType": "TrackLabClient.View.HomePageViewModel"
+  },
+  {
+    "Name": "System",
+    "SubMenuItems": [
+      {
+        "Name": "Status",
+        "ViewModelType": "TrackLabClient.View.Status.StatusViewModel"
+      },
+      {
+        "Name": "Alarm List",
+        "ViewModelType": "TrackLabClient.View.Log.AlarmViewModel"
+      }
+    ]  
+  },
+  {
+    "Name": "Setup",
+    "SubMenuItems": [
+      {
+        "Name": "Hardware Monitor",
+        "ViewModelType": "TrackLabClient.View.Configuration.HardwareMonitorViewModel"
+      }
+    ]
+  }
+]

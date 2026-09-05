@@ -1,0 +1,109 @@
+﻿[
+  {
+    "Index": 101,
+    "Name": "LP01",
+    "ClassName": "TrackLabClient.Modules.LoadPort.LoadPortModule"
+  },
+  {
+    "Index": 102,
+    "Name": "LP02",
+    "ClassName": "TrackLabClient.Modules.LoadPort.LoadPortModule"
+  },
+  {
+    "Index": 103,
+    "Name": "LP03",
+    "ClassName": "TrackLabClient.Modules.LoadPort.LoadPortModule"
+  },
+  {
+    "Index": 104,
+    "Name": "LP04",
+    "ClassName": "TrackLabClient.Modules.LoadPort.LoadPortModule"
+  },
+  {
+    "Index": 150,
+    "Name": "ROBOT01",
+    "ClassName": "TrackLabClient.Modules.Robot.RobotModule"
+  },
+
+  {
+    "Index": 201,
+    "Name": "HP01",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 202,
+    "Name": "HP02",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 203,
+    "Name": "HP03",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 204,
+    "Name": "HP04",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 205,
+    "Name": "HP05",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 206,
+    "Name": "HP06",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 207,
+    "Name": "HP07",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 208,
+    "Name": "HP08",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 209,
+    "Name": "HP09",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+  {
+    "Index": 210,
+    "Name": "HP10",
+    "ClassName": "TrackLabClient.Modules.HotPlate.HotPlateModule"
+  },
+
+  {
+    "Index": 301,
+    "Name": "CP01",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  },
+  {
+    "Index": 302,
+    "Name": "CP02",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  },
+  {
+    "Index": 303,
+    "Name": "CP03",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  },
+  {
+    "Index": 304,
+    "Name": "CP04",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  },
+  {
+    "Index": 305,
+    "Name": "CP05",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  },
+  {
+    "Index": 306,
+    "Name": "CP06",
+    "ClassName": "TrackLabClient.Modules.Cool.CoolPlateModule"
+  }
+]
