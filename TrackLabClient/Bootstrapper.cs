@@ -14,8 +14,6 @@ namespace TrackLabClient
             Initialize();
         }
 
-
-
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
             InitializeRuntimeData();
