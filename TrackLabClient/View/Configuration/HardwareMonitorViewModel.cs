@@ -101,17 +101,5 @@ namespace TrackLabClient.View.Configuration
 
             IOManager.Instance.UpdateDI(SelectedModule.Name, ioPoint.Name, !ioPoint.Value);
         }
-
-        public void SwitchTheme()
-        {
-            ResourceDictionary dictionary = Application.Current.Resources.MergedDictionaries[1];
-
-            dictionary.MergedDictionaries.Clear();
-
-            dictionary.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri("/UI;component/Theme/Color/LightBlue.xaml", UriKind.Relative)
-            });
-        }
     }
 }
