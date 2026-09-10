@@ -2,6 +2,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/UI;component/Theme/Color/DeepBlue.xaml" />
-        <ResourceDictionary Source="/UI;component/Theme/Color/LightBlue.xaml" />
+        <!--<ResourceDictionary Source="/UI;component/Theme/Color/LightBlue.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
