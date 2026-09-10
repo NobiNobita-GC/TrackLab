@@ -10,7 +10,7 @@
     <Border Margin="8"
             Padding="15"
             Background="{Binding ModuleEntity.State, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource ModuleStatusConverter}}"
-            BorderBrush="#D9DDE3"
+            BorderBrush="{StaticResource PanelBorderBrush}"
             BorderThickness="1"
             CornerRadius="6">
 

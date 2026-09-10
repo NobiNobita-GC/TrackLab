@@ -11,7 +11,7 @@
         <!--  Module  -->
         <Border Grid.Column="0"
                 Background="{StaticResource PanelBackgroundBrush}"
-                BorderBrush="#D9DDE3"
+                BorderBrush="{StaticResource PanelBorderBrush}"
                 BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
@@ -41,7 +41,7 @@
             <!--  DI  -->
             <Border Grid.Column="0"
                     Background="{StaticResource PanelBackgroundBrush}"
-                    BorderBrush="#D9DDE3"
+                    BorderBrush="{StaticResource PanelBorderBrush}"
                     BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -69,7 +69,7 @@
             <!--  DO  -->
             <Border Grid.Column="2"
                     Background="{StaticResource PanelBackgroundBrush}"
-                    BorderBrush="#D9DDE3"
+                    BorderBrush="{StaticResource PanelBorderBrush}"
                     BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>

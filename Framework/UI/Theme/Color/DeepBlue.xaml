@@ -2,6 +2,8 @@
 
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F5F6F8" />
     <SolidColorBrush x:Key="PanelBackgroundBrush" Color="White" />
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#D9DDE3" />
+
     <SolidColorBrush x:Key="ModuleUnknownColor" Color="#88948B" />
     <SolidColorBrush x:Key="ModuleIdleColor" Color="#106B57" />
     <SolidColorBrush x:Key="ModuleRunningColor" Color="Green" />
