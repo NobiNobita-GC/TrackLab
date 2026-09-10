@@ -10,7 +10,7 @@
         </Grid.ColumnDefinitions>
         <!--  Module  -->
         <Border Grid.Column="0"
-                Background="White"
+                Background="{StaticResource PanelBackgroundBrush}"
                 BorderBrush="#D9DDE3"
                 BorderThickness="1">
             <Grid>
@@ -40,7 +40,7 @@
             </Grid.ColumnDefinitions>
             <!--  DI  -->
             <Border Grid.Column="0"
-                    Background="White"
+                    Background="{StaticResource PanelBackgroundBrush}"
                     BorderBrush="#D9DDE3"
                     BorderThickness="1">
                 <Grid>
@@ -68,7 +68,7 @@
             </Border>
             <!--  DO  -->
             <Border Grid.Column="2"
-                    Background="White"
+                    Background="{StaticResource PanelBackgroundBrush}"
                     BorderBrush="#D9DDE3"
                     BorderThickness="1">
                 <Grid>
