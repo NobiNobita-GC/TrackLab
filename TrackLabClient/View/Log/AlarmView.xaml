@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:alarm="clr-namespace:Core.Alarm;assembly=Core">
 
-    <Grid Background="#F5F6F8">
+    <Grid Background="{StaticResource PageBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
@@ -44,7 +44,9 @@
         <Border Grid.Row="1"
                 Margin="20"
                 Padding="15"
-                Background="White"
+                Background="{StaticResource PanelBackgroundBrush}"
+                BorderBrush="{StaticResource PanelBorderBrush}"
+                BorderThickness="1"
                 CornerRadius="4">
 
             <DataGrid AutoGenerateColumns="False"
