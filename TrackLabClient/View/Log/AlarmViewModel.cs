@@ -36,8 +36,11 @@ namespace TrackLabClient.View.Log
 
                 _selectedAlarm = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(CanRemoveSelectedAlarm));
             }
         }
+
+        public bool CanRemoveSelectedAlarm => SelectedAlarm != null;
 
         public void RemoveSelectedAlarm()
         {
