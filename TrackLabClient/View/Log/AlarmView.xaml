@@ -27,6 +27,14 @@
                  VerticalAlignment="Center"
                  Text="{Binding SearchMessage, UpdateSourceTrigger=PropertyChanged}" />
 
+        <Button x:Name="Query"
+                Width="80"
+                Height="30"
+                Margin="410,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Query" />
+
         <Button x:Name="AddTestAlarm"
                 Width="120"
                 Height="32"
@@ -59,7 +67,7 @@
             <DataGrid AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       IsReadOnly="True"
-                      ItemsSource="{Binding Alarms}"
+                      ItemsSource="{Binding Alarm}"
                       SelectedItem="{Binding SelectedAlarm}">
 
                 <DataGrid.Columns>

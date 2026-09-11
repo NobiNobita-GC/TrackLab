@@ -29,6 +29,8 @@ namespace TrackLabClient.View.Log
             }
         ];
 
+        public ObservableCollection<AlarmItem> SearchAlarms { get; } = [];
+
         private string _searchMessage = string.Empty;
 
         public string SearchMessage
@@ -42,6 +44,26 @@ namespace TrackLabClient.View.Log
                 _searchMessage = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        private ObservableCollection<AlarmItem> _displayedAlarms;
+
+        public ObservableCollection<AlarmItem> DisplayedAlarms
+        {
+            get => _displayedAlarms;
+            private set
+            {
+                if (_displayedAlarms == value)
+                    return;
+
+                _displayedAlarms = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public AlarmViewModel()
+        {
+            _displayedAlarms = Alarms;
         }
 
         private AlarmItem? _selectedAlarm;
@@ -67,6 +89,27 @@ namespace TrackLabClient.View.Log
                 return;
 
             Alarms.Remove(SelectedAlarm);
+        }
+
+        private bool IsMatchSearchCondition(AlarmItem alarm)
+        {
+            return string.IsNullOrEmpty(SearchMessage)
+                   || alarm.Message.Contains(SearchMessage);
+        }
+
+        public void Query()
+        {
+            SearchAlarms.Clear();
+
+            foreach (AlarmItem alarm in Alarms)
+            {
+                if (IsMatchSearchCondition(alarm))
+                {
+                    SearchAlarms.Add(alarm);
+                }
+            }
+
+            DisplayedAlarms = SearchAlarms;
         }
 
         public void AddTestAlarm()
