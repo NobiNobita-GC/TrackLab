@@ -20,11 +20,18 @@
                 Background="White"
                 CornerRadius="4">
 
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="18"
-                       Foreground="#888888"
-                       Text="Alarm List" />
+            <DataGrid AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding Alarms}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding}"
+                                        Header="Alarm Message" />
+                </DataGrid.Columns>
+
+            </DataGrid>
 
         </Border>
     </Grid>
