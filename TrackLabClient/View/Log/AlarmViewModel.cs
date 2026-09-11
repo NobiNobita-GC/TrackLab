@@ -25,6 +25,20 @@ namespace TrackLabClient.View.Log
             }
         ];
 
+        private AlarmItem? _selectedAlarm;
+        public AlarmItem? SelectedAlarm
+        {
+            get => _selectedAlarm;
+            set
+            {
+                if (_selectedAlarm == value)
+                    return;
+
+                _selectedAlarm = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public void AddTestAlarm()
         {
             Alarms.Add(new AlarmItem
