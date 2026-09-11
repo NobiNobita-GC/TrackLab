@@ -60,7 +60,7 @@
                                         Binding="{Binding Time, StringFormat=HH:mm:ss}"
                                         Header="Time" />
 
-                    <DataGridTextColumn Width="150"
+                    <DataGridTextColumn Width="120"
                                         Binding="{Binding Module}"
                                         Header="Module" />
 
@@ -101,6 +101,10 @@
                     <DataGridTextColumn Width="*"
                                         Binding="{Binding Cause}"
                                         Header="Cause" />
+
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Solution}"
+                                        Header="Solution" />
                 </DataGrid.Columns>
 
             </DataGrid>

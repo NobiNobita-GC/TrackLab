@@ -14,7 +14,8 @@ namespace TrackLabClient.View.Log
                 Module = "Robot",
                 Level = AlarmLevel.Error,
                 Message = "Communication timeout",
-                Cause = "Robot controller is not responding"
+                Cause = "Robot controller is not responding",
+                Solution = "Check the robot controller"
             },
 
             new AlarmItem
@@ -23,7 +24,8 @@ namespace TrackLabClient.View.Log
                 Module = "LoadPort",
                 Level = AlarmLevel.Warning,
                 Message = "Door open failed",
-                Cause = "Door sensor is abnormal"
+                Cause = "Door sensor is abnormal",
+                Solution = "Check the door sensor"
             }
         ];
 
@@ -60,7 +62,8 @@ namespace TrackLabClient.View.Log
                 Module = "Robot",
                 Level = AlarmLevel.Info,
                 Message = "Test Info alarm",
-                Cause = "Test alarm"
+                Cause = "Test alarm",
+                Solution = "No solution"
             });
         }
     }
