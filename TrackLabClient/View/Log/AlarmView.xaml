@@ -26,9 +26,21 @@
                       ItemsSource="{Binding Alarms}">
 
                 <DataGrid.Columns>
+                    <DataGridTextColumn Width="120"
+                                        Binding="{Binding Time}"
+                                        Header="Time" />
+
+                    <DataGridTextColumn Width="150"
+                                        Binding="{Binding Module}"
+                                        Header="Module" />
+
+                    <DataGridTextColumn Width="120"
+                                        Binding="{Binding Level}"
+                                        Header="Level" />
+
                     <DataGridTextColumn Width="*"
                                         Binding="{Binding Message}"
-                                        Header="Alarm Message" />
+                                        Header="Message" />
                 </DataGrid.Columns>
 
             </DataGrid>
