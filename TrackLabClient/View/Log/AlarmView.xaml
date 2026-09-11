@@ -97,6 +97,10 @@
                     <DataGridTextColumn Width="*"
                                         Binding="{Binding Message}"
                                         Header="Message" />
+
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Cause}"
+                                        Header="Cause" />
                 </DataGrid.Columns>
 
             </DataGrid>
