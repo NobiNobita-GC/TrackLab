@@ -15,6 +15,11 @@
                    FontWeight="SemiBold"
                    Text="Alarm" />
 
+        <TextBlock Margin="120,0,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Text="{Binding Alarms.Count, StringFormat='Count: {0}'}" />
+
         <Button x:Name="AddTestAlarm"
                 Width="120"
                 Height="32"
