@@ -29,6 +29,21 @@ namespace TrackLabClient.View.Log
             }
         ];
 
+        private string _searchMessage = string.Empty;
+
+        public string SearchMessage
+        {
+            get => _searchMessage;
+            set
+            {
+                if (_searchMessage == value)
+                    return;
+
+                _searchMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private AlarmItem? _selectedAlarm;
         public AlarmItem? SelectedAlarm
         {

@@ -20,6 +20,13 @@
                    VerticalAlignment="Center"
                    Text="{Binding Alarms.Count, StringFormat='Count: {0}'}" />
 
+        <TextBox Width="180"
+                 Height="30"
+                 Margin="220,0,0,0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"
+                 Text="{Binding SearchMessage, UpdateSourceTrigger=PropertyChanged}" />
+
         <Button x:Name="AddTestAlarm"
                 Width="120"
                 Height="32"

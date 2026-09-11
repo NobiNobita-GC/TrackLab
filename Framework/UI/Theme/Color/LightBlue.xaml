@@ -10,4 +10,7 @@
     <SolidColorBrush x:Key="ModuleAlarmColor" Color="#FF4D4F" />
     <SolidColorBrush x:Key="ModuleDisabledColor" Color="#808080" />
 
+    <SolidColorBrush x:Key="AlarmInfoColor" Color="#1677FF" />
+    <SolidColorBrush x:Key="AlarmWarningColor" Color="#FAAD14" />
+    <SolidColorBrush x:Key="AlarmErrorColor" Color="#FF4D4F" />
 </ResourceDictionary>

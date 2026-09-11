@@ -13,11 +13,11 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 - 使用共享 `IODisplay` 控件按模块查看 DI/DO 点位，并随点位值变化更新显示
 - 在硬件监视页通过 `Toggle WaferPresent` 按钮切换示例 DI 值
 - 通过 JSON 配置应用菜单和模块，通过 XAML 配置设备布局
-- 提供 Alarm List 页面骨架，便于后续接入告警数据
-- 集中管理页面背景、面板边框、模块状态颜色及菜单矢量图标
+- 提供告警列表页：展示示例告警记录，支持关键字搜索、添加测试告警和移除选中告警
+- 集中管理页面背景、面板边框、模块状态颜色、告警等级颜色及菜单矢量图标
 - 提供独立的模拟器项目骨架，便于后续扩展设备仿真
 
-> 当前项目处于原型开发阶段。模块定义来自本地配置文件，模块状态和 IO 数据仍保存在内存中，尚未接入真实设备、数据库或持久化运行数据。
+> 当前项目处于原型开发阶段。模块定义来自本地配置文件，模块状态、IO 数据和告警记录仍保存在内存中，尚未接入真实设备、数据库或持久化运行数据。
 
 ## 技术栈
 
@@ -25,7 +25,7 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 | --- | --- |
 | .NET 8 | 应用运行时与基础类库 |
 | WPF | Windows 桌面界面 |
-| Caliburn.Micro 4.0.230 | MVVM、视图定位和生命周期管理 |
+| Caliburn.Micro 4.0.230 | MVVM、视图定位、生命周期管理与动作绑定 |
 | Newtonsoft.Json 13.0.4 | 菜单配置反序列化 |
 | System.Text.Json | 模块配置反序列化 |
 
@@ -34,7 +34,8 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 ```text
 TrackLab/
 ├─ Framework/                  # 公共框架（解决方案中同名分组）
-│  ├─ Core/                    # 模块基类、状态机、IO 和菜单管理
+│  ├─ Core/                    # 模块基类、状态机、IO、菜单和告警模型
+│  │  ├─ Alarm/                # 告警模型（AlarmItem）和告警等级（AlarmLevel）
 │  │  ├─ Modules/              # 模块基类、配置模型和 ModuleManager
 │  │  ├─ StateMachine/         # FSM 状态流转与属性通知
 │  │  ├─ IO/                   # IO 点位、注册和更新
@@ -56,6 +57,8 @@ TrackLab/
 │  │  ├─ LoadPort/             # Load Port
 │  │  └─ Robot/                # 机械手
 │  ├─ View/
+│  │  ├─ HomeView / HomeViewModel           # 主窗口与菜单外壳
+│  │  ├─ HomePageView / HomePageViewModel   # 首页
 │  │  ├─ Status/               # 状态页及模块详情
 │  │  ├─ Configuration/        # 硬件监视
 │  │  └─ Log/                  # 告警页
@@ -117,13 +120,13 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 ### 功能体验
 
 1. 启动后默认进入 `Home Page`，当前首页为介绍占位页。
-2. 进入 `System → Status` 查看设备布局；点击热板模块可打开详情，通过 `Start Process` 和 `Complete` 演示 `Idle → Running → Idle` 状态流转。
-3. 进入 `Setup → Hardware Monitor`，选择 `HP01`、`HP02` 或 `CP01`，点击 `Toggle WaferPresent` 观察 DI 值变化。DI/DO 表格本身为只读。
-4. `System → Alarm List` 当前仅显示告警页面骨架，尚未接入告警记录。
+2. 进入 `System → Status` 查看设备布局；点击热板模块可打开详情，通过 `Start Process` 和 `Complete` 演示 `Idle → Running → Idle` 状态流转。冷板详情目前只展示模块信息。
+3. 进入 `Setup → Hardware Monitor`，在左侧选择模块（默认选中第一个），点击 `Toggle WaferPresent` 观察 DI 值变化。DI/DO 表格本身为只读。
+4. 进入 `System → Alarm List` 查看示例告警；可在搜索框输入关键字、点击 `Add Test Alarm` 追加一条示例告警，或选中表格行后点击 `Remove Selected` 删除。数据仅存在内存中，重启后恢复。
 
 ### 启动流程
 
-`App.xaml` 加载 UI 资源字典并创建 `Bootstrapper`；`Bootstrapper.OnStartup()` 依次加载模块配置、初始化模块、注册示例 IO，随后打开 `HomeViewModel`。主窗口通过 `MenuManager` 读取菜单并创建页面 ViewModel，切换页面时调用自定义的 `Active()` / `Deactivate()` 方法。状态页每次激活都会重新读取设备布局，硬件监视页每次激活都会默认选择第一个模块。
+`App.xaml` 加载 UI 资源字典并创建 `Bootstrapper`；`Bootstrapper.OnStartup()` 依次加载模块配置、初始化模块、注册示例 IO，随后异步打开 `HomeViewModel`。主窗口通过 `MenuManager` 读取菜单并创建页面 ViewModel，切换页面时调用自定义的 `Active()` / `Deactivate()` 方法。状态页每次激活都会重新读取设备布局，硬件监视页每次激活都会默认选择第一个模块。
 
 ## 配置说明
 
@@ -143,6 +146,15 @@ TrackLabClient/Config/MenuConfig.json
   "ViewModelType": "TrackLabClient.View.Status.StatusViewModel"
 }
 ```
+
+当前菜单结构：
+
+- `Home Page` → `TrackLabClient.View.HomePageViewModel`
+- `System`
+  - `Status` → `TrackLabClient.View.Status.StatusViewModel`
+  - `Alarm List` → `TrackLabClient.View.Log.AlarmViewModel`
+- `Setup`
+  - `Hardware Monitor` → `TrackLabClient.View.Configuration.HardwareMonitorViewModel`
 
 添加页面时需要：
 
@@ -175,12 +187,14 @@ TrackLabClient/Config/ModuleConfig.json
 
 客户端启动时，`Bootstrapper` 将客户端程序集传入 `ModuleManager.Load`，管理器读取配置，通过反射创建模块，并调用 `InitializeAll()` 将模块初始化为 `Idle`。配置中的类型必须继承 `ModuleBase`，并提供 `(int index, string name)` 构造函数；模块索引和名称不能重复。
 
-当前配置包含：
+当前配置共 21 个模块，索引按类型分段：
 
-- 热板：`HP01`～`HP10`
-- 冷板：`CP01`～`CP06`
-- Load Port：`LP01`～`LP04`
-- 传输机械手：`ROBOT01`
+| 类型 | 模块名称 | 索引范围 | 数量 |
+| --- | --- | --- | --- |
+| Load Port | `LP01`～`LP04` | 101～104 | 4 |
+| 传输机械手 | `ROBOT01` | 150 | 1 |
+| 热板 | `HP01`～`HP10` | 201～210 | 10 |
+| 冷板 | `CP01`～`CP06` | 301～306 | 6 |
 
 ### 设备布局配置
 
@@ -190,7 +204,7 @@ TrackLabClient/Config/ModuleConfig.json
 TrackLabClient/Config/LayoutConfig.xaml
 ```
 
-布局使用普通 WPF `Grid` 描述 Load Port、传输区和工艺模块的位置。运行时会读取其中的模块名称占位符，例如 `LP01`、`ROBOT01` 或 `HP01`，并替换为绑定对应模块数据的 `ModuleControl`。
+布局使用普通 WPF `Grid` 描述 Load Port、传输区和工艺模块的位置，顶部按 `LOAD PORT`、`TRANSFER`、`PROCESS MODULE` 三个区域标题分区。运行时会读取其中的模块名称占位符，例如 `LP01`、`ROBOT01` 或 `HP01`，并替换为绑定对应模块数据的 `ModuleControl`。
 
 调整布局时需要注意：
 
@@ -215,6 +229,23 @@ TrackLabClient/Config/LayoutConfig.xaml
 
 `IOManager.UpdateDI()` / `UpdateDO()` 按模块名和点位名查找数据，调用 `IOPoint.SetValue()` 并通过 `INotifyPropertyChanged` 通知界面。`IODisplay` 的 `Items` 依赖属性接收点位集合，以只读表格展示 `Index`、`Name` 和 `Value`。这些数据仅保存在进程内存中，应用重新启动后会恢复为初始值。
 
+### 告警数据
+
+告警页由 [AlarmViewModel.cs](TrackLabClient/View/Log/AlarmViewModel.cs) 提供示例数据，告警模型定义在 `Framework/Core/Alarm`：
+
+| 类型 | 字段 / 取值 |
+| --- | --- |
+| `AlarmItem` | `Time`、`Module`、`Level`、`Message`、`Cause`、`Solution` |
+| `AlarmLevel` | `Info`、`Warning`、`Error` |
+
+告警页以只读表格展示上述字段，并按等级着色（`AlarmInfoColor` / `AlarmWarningColor` / `AlarmErrorColor`）。当前支持：
+
+- `SearchMessage`：页面顶部的搜索输入框，已绑定 ViewModel 属性，尚未接入实际过滤逻辑。
+- `AddTestAlarm`：向集合追加一条 `Info` 级示例告警。
+- `RemoveSelectedAlarm`：删除表格中选中的告警，未选中时不可用。
+
+初始包含 `Robot` 的 Error 级和 `LoadPort` 的 Warning 级各一条示例记录。告警数据同样只保存在内存中。
+
 ### 主题与菜单图标
 
 客户端在 [App.xaml](TrackLabClient/App.xaml) 中合并共享主题和图标字典：
@@ -222,15 +253,16 @@ TrackLabClient/Config/LayoutConfig.xaml
 | 文件 | 用途 |
 | --- | --- |
 | [MainColor.xaml](Framework/UI/Theme/MainColor.xaml) | 主题入口，当前加载 `Color/DeepBlue.xaml` |
-| [DeepBlue.xaml](Framework/UI/Theme/Color/DeepBlue.xaml) / [LightBlue.xaml](Framework/UI/Theme/Color/LightBlue.xaml) | 定义同名的页面、面板、边框和模块状态画刷 |
+| [DeepBlue.xaml](Framework/UI/Theme/Color/DeepBlue.xaml) / [LightBlue.xaml](Framework/UI/Theme/Color/LightBlue.xaml) | 定义同名的页面、面板、边框、模块状态和告警等级画刷 |
 | [VectorIcons.xaml](Framework/UI/Geometry/VectorIcons.xaml) | 菜单 `Geometry` 图标资源 |
 
 调整配色可编辑当前字典，或将 `MainColor.xaml` 的 `Source` 改为 `/UI;component/Theme/Color/LightBlue.xaml`，重新构建后启动。两个字典均需保留以下资源 key：
 
 - `PageBackgroundBrush`、`PanelBackgroundBrush`、`PanelBorderBrush`
 - `ModuleUnknownColor`、`ModuleIdleColor`、`ModuleRunningColor`、`ModuleAlarmColor`、`ModuleDisabledColor`
+- `AlarmInfoColor`、`AlarmWarningColor`、`AlarmErrorColor`
 
-硬件监视页使用共享背景和边框画刷；`ModuleControl` 通过 `ModuleStatusConverter` 按 `Module{State}Color` 查找状态画刷，状态未知时使用 `ModuleUnknownColor`。当前未提供运行时主题切换入口，部分页面仍使用固定颜色。
+硬件监视页和告警页使用共享背景和边框画刷；`ModuleControl` 通过 `ModuleStatusConverter` 按 `Module{State}Color` 查找状态画刷，状态未知时使用 `ModuleUnknownColor`。当前未提供运行时主题切换入口，主窗口外壳（顶栏、侧边菜单和二级菜单弹窗）仍使用固定深色。
 
 菜单图标由 `StringToIconConverter` 按菜单名查找。绘图约定为 24×24 坐标体系，菜单中的 `Path` 以 20×20、`Stretch="Uniform"` 和白色填充显示。新增或替换图标时应保留对应资源 key，并沿用该坐标约定。
 
@@ -258,11 +290,11 @@ Disabled -> Idle
 
 ## 开发约定
 
-- 通用模型、模块基类和状态机放在 `Framework/Core`；具体设备实现放在 `TrackLabClient/Modules`。
+- 通用模型、模块基类、状态机和告警模型放在 `Framework/Core`；具体设备实现放在 `TrackLabClient/Modules`。
 - 模块状态流转通过 `FSM` 和模块公开方法完成，避免直接修改状态。
 - 可复用控件、主题、图标和转换器放在 `Framework/UI`。
 - 具体页面和应用级交互放在 `TrackLabClient`。
-- View 与 ViewModel 使用 Caliburn.Micro 的命名约定进行匹配。
+- View 与 ViewModel 使用 Caliburn.Micro 的命名约定进行匹配；按钮动作通过 `cal:Message.Attach` 绑定同名方法。
 - 新增模块类型时同步更新 `Core.Modules.ModuleType`、模块实现和 `ModuleConfig.json`；需要出现在状态页时补充 `LayoutConfig.xaml` 占位符。
 - 需要专属详情页时，在 `TrackLabClient/View/Status` 中使用 `{ModuleType}ModuleViewModel` 命名，并提供接收模块实例的公共构造函数。
 - 新增 DI/DO 展示复用 `IODisplay`；更新点位值通过 `IOManager` 或 `IOPoint.SetValue()` 触发属性通知。
@@ -275,19 +307,19 @@ Disabled -> Idle
 
 ## 当前状态
 
-- `TrackLabClient`：主应用原型，已实现配置化设备布局、模块详情弹窗、只读 DI/DO 监视和 DI 值切换演示；首页和告警页仍为占位内容
-- `Core`：已包含模块反射创建、模块分层、有限状态机、IO 和菜单管理基础实现
+- `TrackLabClient`：主应用原型，已实现配置化设备布局、模块详情弹窗、只读 DI/DO 监视、DI 值切换演示和内存态告警列表；首页仍为占位内容
+- `Core`：已包含模块反射创建、模块分层、有限状态机、IO、菜单管理和告警模型基础实现
 - `UI`：已包含 `ModuleControl`、`IODisplay`、状态与图标转换器、共享画刷及两套配色字典
 - `TrackLabSimulator`：仅有基础窗口，设备仿真逻辑待实现
 - 自动化测试：暂未建立测试项目
 
-构建成功不等于完整功能验证。提交前可按“功能体验”中的路径检查布局、热板状态变化和 DI 显示；当前未提供自动化测试命令。
+构建成功不等于完整功能验证。提交前可按“功能体验”中的路径检查布局、热板状态变化、DI 显示和告警增删；当前未提供自动化测试命令。
 
 ## 后续方向
 
 - 接入真实设备通信或统一的设备抽象层
 - 将 IO 和运行状态迁移到配置或持久化存储
 - 完善 Simulator 与客户端之间的数据交互
-- 接入真实告警数据，完善 Alarm List 的查询、确认和清除流程
+- 将告警列表接入真实告警数据，完善搜索过滤、确认和清除流程
 - 增加日志、异常处理和运行状态诊断
 - 为 Core 层补充单元测试
