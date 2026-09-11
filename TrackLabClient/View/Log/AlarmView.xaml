@@ -27,7 +27,7 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="*"
-                                        Binding="{Binding}"
+                                        Binding="{Binding Message}"
                                         Header="Alarm Message" />
                 </DataGrid.Columns>
 
