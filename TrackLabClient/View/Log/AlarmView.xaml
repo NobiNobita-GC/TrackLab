@@ -35,7 +35,7 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="120"
-                                        Binding="{Binding Time}"
+                                        Binding="{Binding Time, StringFormat=HH:mm:ss}"
                                         Header="Time" />
 
                     <DataGridTextColumn Width="150"

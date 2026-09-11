@@ -10,7 +10,7 @@ namespace TrackLabClient.View.Log
         [
             new AlarmItem
             {
-                Time = "09:20:15",
+                Time = DateTime.Now,
                 Module = "Robot",
                 Level = "Error",
                 Message = "Communication timeout"
@@ -18,7 +18,7 @@ namespace TrackLabClient.View.Log
 
             new AlarmItem
             {
-                Time = "09:21:32",
+                Time = DateTime.Now,
                 Module = "LoadPort",
                 Level = "Warning",
                 Message = "Door open failed"
@@ -29,7 +29,7 @@ namespace TrackLabClient.View.Log
         {
             Alarms.Add(new AlarmItem
             {
-                Time = System.DateTime.Now.ToString("HH:mm:ss"),
+                Time = DateTime.Now,
                 Module = "Robot",
                 Level = "Warning",
                 Message = "Test alarm"
