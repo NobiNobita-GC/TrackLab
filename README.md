@@ -122,7 +122,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 1. 启动后默认进入 `Home Page`，当前首页为介绍占位页。
 2. 进入 `System → Status` 查看设备布局；点击热板模块可打开详情，通过 `Start Process` 和 `Complete` 演示 `Idle → Running → Idle` 状态流转。冷板详情目前只展示模块信息。
 3. 进入 `Setup → Hardware Monitor`，在左侧选择模块（默认选中第一个），点击 `Toggle WaferPresent` 观察 DI 值变化。DI/DO 表格本身为只读。
-4. 进入 `System → Alarm List` 查看示例告警；可在搜索框输入关键字、点击 `Add Test Alarm` 追加一条示例告警，或选中表格行后点击 `Remove Selected` 删除。数据仅存在内存中，重启后恢复。
+4. 进入 `System → Alarm List` 查看示例告警；在搜索框输入关键字后点击 `Query` 按 `Message` 过滤，点击 `Add Test Alarm` 追加一条示例告警，或选中表格行后点击 `Remove Selected` 删除。数据仅存在内存中，重启后恢复。
 
 ### 启动流程
 
@@ -238,11 +238,12 @@ TrackLabClient/Config/LayoutConfig.xaml
 | `AlarmItem` | `Time`、`Module`、`Level`、`Message`、`Cause`、`Solution` |
 | `AlarmLevel` | `Info`、`Warning`、`Error` |
 
-告警页以只读表格展示上述字段，并按等级着色（`AlarmInfoColor` / `AlarmWarningColor` / `AlarmErrorColor`）。当前支持：
+告警页以只读表格展示上述字段，并按等级着色（`AlarmInfoColor` / `AlarmWarningColor` / `AlarmErrorColor`）。`Alarms` 保存全量数据，`DisplayedAlarms` 为经查询条件过滤后实际展示的集合，表格与 `Count` 均绑定后者。当前支持：
 
-- `SearchMessage`：页面顶部的搜索输入框，已绑定 ViewModel 属性，尚未接入实际过滤逻辑。
-- `AddTestAlarm`：向集合追加一条 `Info` 级示例告警。
-- `RemoveSelectedAlarm`：删除表格中选中的告警，未选中时不可用。
+- `SearchMessage`：页面顶部的搜索输入框，按 `Message` 字段过滤，比较时不区分大小写，首尾空白会被忽略。
+- `Query`：按当前 `SearchMessage` 过滤列表。关键字为空时展示全部。
+- `AddTestAlarm`：追加一条 `Info` 级示例告警，并刷新当前列表。
+- `RemoveSelectedAlarm`：从全量集合中删除表格选中的告警，并刷新当前列表；未选中时不可用。
 
 初始包含 `Robot` 的 Error 级和 `LoadPort` 的 Warning 级各一条示例记录。告警数据同样只保存在内存中。
 

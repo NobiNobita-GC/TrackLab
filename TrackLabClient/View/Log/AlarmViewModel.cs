@@ -6,6 +6,7 @@ namespace TrackLabClient.View.Log
 {
     public class AlarmViewModel : ViewModelBase
     {
+        /// <summary>全量告警数据源。</summary>
         public ObservableCollection<AlarmItem> Alarms { get; } =
         [
             new AlarmItem
@@ -29,7 +30,8 @@ namespace TrackLabClient.View.Log
             }
         ];
 
-        public ObservableCollection<AlarmItem> SearchAlarms { get; } = [];
+        /// <summary>当前表格实际展示的告警，为 Alarms 按查询条件过滤后的结果。</summary>
+        public ObservableCollection<AlarmItem> DisplayedAlarms { get; } = [];
 
         private string _searchMessage = string.Empty;
 
@@ -44,26 +46,6 @@ namespace TrackLabClient.View.Log
                 _searchMessage = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        private ObservableCollection<AlarmItem> _displayedAlarms;
-
-        public ObservableCollection<AlarmItem> DisplayedAlarms
-        {
-            get => _displayedAlarms;
-            private set
-            {
-                if (_displayedAlarms == value)
-                    return;
-
-                _displayedAlarms = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public AlarmViewModel()
-        {
-            _displayedAlarms = Alarms;
         }
 
         private AlarmItem? _selectedAlarm;
@@ -83,33 +65,24 @@ namespace TrackLabClient.View.Log
 
         public bool CanRemoveSelectedAlarm => SelectedAlarm != null;
 
+        public AlarmViewModel()
+        {
+            RefreshDisplayedAlarms();
+        }
+
+        /// <summary>按当前 SearchMessage 过滤告警，供 Query 按钮调用。</summary>
+        public void Query()
+        {
+            RefreshDisplayedAlarms();
+        }
+
         public void RemoveSelectedAlarm()
         {
             if (SelectedAlarm == null)
                 return;
 
             Alarms.Remove(SelectedAlarm);
-        }
-
-        private bool IsMatchSearchCondition(AlarmItem alarm)
-        {
-            return string.IsNullOrEmpty(SearchMessage)
-                   || alarm.Message.Contains(SearchMessage);
-        }
-
-        public void Query()
-        {
-            SearchAlarms.Clear();
-
-            foreach (AlarmItem alarm in Alarms)
-            {
-                if (IsMatchSearchCondition(alarm))
-                {
-                    SearchAlarms.Add(alarm);
-                }
-            }
-
-            DisplayedAlarms = SearchAlarms;
+            RefreshDisplayedAlarms();
         }
 
         public void AddTestAlarm()
@@ -123,6 +96,32 @@ namespace TrackLabClient.View.Log
                 Cause = "Test alarm",
                 Solution = "No solution"
             });
+
+            RefreshDisplayedAlarms();
+        }
+
+        private void RefreshDisplayedAlarms()
+        {
+            DisplayedAlarms.Clear();
+
+            foreach (AlarmItem alarm in Alarms)
+            {
+                if (IsMatchSearchCondition(alarm))
+                {
+                    DisplayedAlarms.Add(alarm);
+                }
+            }
+        }
+
+        private bool IsMatchSearchCondition(AlarmItem alarm)
+        {
+            string keyword = SearchMessage?.Trim() ?? string.Empty;
+
+            // 未输入关键字时展示全部
+            if (keyword.Length == 0)
+                return true;
+
+            return alarm.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

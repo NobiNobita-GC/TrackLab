@@ -18,7 +18,7 @@
         <TextBlock Margin="120,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Text="{Binding Alarms.Count, StringFormat='Count: {0}'}" />
+                   Text="{Binding DisplayedAlarms.Count, StringFormat='Count: {0}'}" />
 
         <TextBox Width="180"
                  Height="30"
@@ -67,7 +67,7 @@
             <DataGrid AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       IsReadOnly="True"
-                      ItemsSource="{Binding Alarm}"
+                      ItemsSource="{Binding DisplayedAlarms}"
                       SelectedItem="{Binding SelectedAlarm}">
 
                 <DataGrid.Columns>
