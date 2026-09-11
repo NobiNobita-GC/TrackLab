@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="TrackLabClient.View.Log.AlarmView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:alarm="clr-namespace:Core.Alarm;assembly=Core">
 
     <Grid Background="#F5F6F8">
         <Grid.RowDefinitions>
@@ -13,7 +14,7 @@
                    FontSize="24"
                    FontWeight="SemiBold"
                    Text="Alarm" />
-        
+
         <Button x:Name="AddTestAlarm"
                 Width="120"
                 Height="32"
@@ -42,9 +43,35 @@
                                         Binding="{Binding Module}"
                                         Header="Module" />
 
-                    <DataGridTextColumn Width="120"
-                                        Binding="{Binding Level}"
-                                        Header="Level" />
+                    <DataGridTemplateColumn Width="120" Header="Level">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Level}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+
+                                            <Setter Property="Foreground" Value="{StaticResource AlarmInfoColor}" />
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding Level}" Value="{x:Static alarm:AlarmLevel.Warning}">
+                                                    <Setter Property="Foreground" Value="{StaticResource AlarmWarningColor}" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Level}" Value="{x:Static alarm:AlarmLevel.Error}">
+                                                    <Setter Property="Foreground" Value="{StaticResource AlarmErrorColor}" />
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
 
                     <DataGridTextColumn Width="*"
                                         Binding="{Binding Message}"
