@@ -31,8 +31,8 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "Robot",
-                Level = AlarmLevel.Warning,
-                Message = "Test alarm"
+                Level = AlarmLevel.Info,
+                Message = "Test Info alarm"
             });
         }
     }
