@@ -13,6 +13,14 @@
                    FontSize="24"
                    FontWeight="SemiBold"
                    Text="Alarm" />
+        
+        <Button x:Name="AddTestAlarm"
+                Width="120"
+                Height="32"
+                Margin="0,0,20,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="Add Test Alarm" />
 
         <Border Grid.Row="1"
                 Margin="20"

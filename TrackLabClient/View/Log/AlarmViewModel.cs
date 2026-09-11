@@ -24,5 +24,16 @@ namespace TrackLabClient.View.Log
                 Message = "Door open failed"
             }
         ];
+
+        public void AddTestAlarm()
+        {
+            Alarms.Add(new AlarmItem
+            {
+                Time = System.DateTime.Now.ToString("HH:mm:ss"),
+                Module = "Robot",
+                Level = "Warning",
+                Message = "Test alarm"
+            });
+        }
     }
 }
