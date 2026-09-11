@@ -39,6 +39,14 @@ namespace TrackLabClient.View.Log
             }
         }
 
+        public void RemoveSelectedAlarm()
+        {
+            if (SelectedAlarm == null)
+                return;
+
+            Alarms.Remove(SelectedAlarm);
+        }
+
         public void AddTestAlarm()
         {
             Alarms.Add(new AlarmItem
