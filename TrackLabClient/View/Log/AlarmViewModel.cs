@@ -12,7 +12,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "Robot",
-                Level = "Error",
+                Level = AlarmLevel.Error,
                 Message = "Communication timeout"
             },
 
@@ -20,7 +20,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "LoadPort",
-                Level = "Warning",
+                Level = AlarmLevel.Warning,
                 Message = "Door open failed"
             }
         ];
@@ -31,7 +31,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "Robot",
-                Level = "Warning",
+                Level = AlarmLevel.Warning,
                 Message = "Test alarm"
             });
         }
