@@ -13,7 +13,8 @@ TrackLab 是一个基于 .NET 8 和 WPF 的设备模块监控原型项目，用�
 - 使用共享 `IODisplay` 控件按模块查看 DI/DO 点位，并随点位值变化更新显示
 - 在硬件监视页通过 `Toggle WaferPresent` 按钮切换示例 DI 值
 - 通过 JSON 配置应用菜单和模块，通过 XAML 配置设备布局
-- 提供告警列表页：展示示例告警记录，支持关键字搜索、取消查询、添加测试告警和移除选中告警
+- 提供告警列表页：展示示例告警记录，支持按名称和消息关键字搜索、取消查询、添加测试告警和移除选中告警
+- 提供关机页面：通过确认弹窗关闭应用，或先启动新进程再退出当前实例以实现重启
 - 集中管理页面背景、面板边框、模块状态颜色、告警等级颜色及菜单矢量图标
 - 提供独立的模拟器项目骨架，便于后续扩展设备仿真
 
@@ -60,7 +61,7 @@ TrackLab/
 │  │  ├─ HomeView / HomeViewModel           # 主窗口与菜单外壳
 │  │  ├─ HomePageView / HomePageViewModel   # 首页
 │  │  ├─ Status/               # 状态页及模块详情
-│  │  ├─ Configuration/        # 硬件监视
+│  │  ├─ Configuration/        # 硬件监视与关机页面
 │  │  └─ Log/                  # 告警页
 │  └─ TrackLabClient.csproj
 ├─ TrackLabSimulator/          # 设备模拟器骨架，窗口位于 View/
@@ -122,11 +123,12 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 1. 启动后默认进入 `Home Page`，当前首页为介绍占位页。
 2. 进入 `System → Status` 查看设备布局；点击热板模块可打开详情，通过 `Start Process` 和 `Complete` 演示 `Idle → Running → Idle` 状态流转。冷板详情目前只展示模块信息。
 3. 进入 `Setup → Hardware Monitor`，在左侧选择模块（默认选中第一个），点击 `Toggle WaferPresent` 观察 DI 值变化。DI/DO 表格本身为只读。
-4. 进入 `System → Alarm List` 查看示例告警；在搜索框输入关键字后点击 `Query` 按 `Message` 过滤，点击 `Cancel` 清空搜索词并恢复显示全部告警，点击 `Add Test Alarm` 追加一条示例告警，或选中表格行后点击 `Remove Selected` 删除。数据仅存在内存中，重启后恢复。
+4. 进入 `System → Alarm List` 查看示例告警；在搜索框输入关键字后点击 `Query` 按 `Message` 与 `Name` 过滤（两个条件同时生效），点击 `Cancel` 清空搜索条件并恢复显示全部告警，点击 `Add Test Alarm` 追加一条示例告警，或选中表格行后点击 `Remove Selected` 删除。数据仅存在内存中，重启后恢复。
+5. 进入 `System → Shut Down` 关闭或重启应用；点击 `Shut Down` / `Restart` 后需在确认弹窗中选择 `Yes`，`Restart` 会先启动新的应用进程再退出当前实例。
 
 ### 启动流程
 
-`App.xaml` 加载 UI 资源字典并创建 `Bootstrapper`；`Bootstrapper.OnStartup()` 依次加载模块配置、初始化模块、注册示例 IO，随后异步打开 `HomeViewModel`。主窗口通过 `MenuManager` 读取菜单并创建页面 ViewModel，切换页面时调用自定义的 `Active()` / `Deactivate()` 方法。状态页每次激活都会重新读取设备布局，硬件监视页每次激活都会默认选择第一个模块。
+`App.xaml` 加载 UI 资源字典并创建 `Bootstrapper`；`Bootstrapper.OnStartup()` 依次加载模块配置、初始化模块、注册示例 IO，随后异步打开 `HomeViewModel`。主窗口通过 `MenuManager` 读取菜单并创建页面 ViewModel，切换页面时调用自定义的 `Active()` / `Deactivate()` 方法。状态页每次激活都会重新读取设备布局，硬件监视页每次激活都会默认选择第一个模块。主窗口为无边框最大化窗口，没有系统标题栏，可通过 `System → Shut Down` 页面关闭或重启应用。
 
 ## 配置说明
 
@@ -153,6 +155,7 @@ TrackLabClient/Config/MenuConfig.json
 - `System`
   - `Status` → `TrackLabClient.View.Status.StatusViewModel`
   - `Alarm List` → `TrackLabClient.View.Log.AlarmViewModel`
+  - `Shut Down` → `TrackLabClient.View.Configuration.ShutDownViewModel`
 - `Setup`
   - `Hardware Monitor` → `TrackLabClient.View.Configuration.HardwareMonitorViewModel`
 
@@ -235,14 +238,14 @@ TrackLabClient/Config/LayoutConfig.xaml
 
 | 类型 | 字段 / 取值 |
 | --- | --- |
-| `AlarmItem` | `Time`、`Module`、`Level`、`Message`、`Cause`、`Solution` |
+| `AlarmItem` | `Time`、`Module`、`Name`、`Level`、`Message`、`Cause`、`Solution` |
 | `AlarmLevel` | `Info`、`Warning`、`Error` |
 
 告警页以只读表格展示上述字段，并按等级着色（`AlarmInfoColor` / `AlarmWarningColor` / `AlarmErrorColor`）。`Alarms` 保存全量数据，`DisplayedAlarms` 为经查询条件过滤后实际展示的集合，表格与 `Count` 均绑定后者。当前支持：
 
-- `SearchMessage`：页面顶部的搜索输入框，按 `Message` 字段过滤，比较时不区分大小写，首尾空白会被忽略。
-- `Query`：按当前 `SearchMessage` 过滤列表。关键字为空时展示全部。
-- `CancelQuery`：清空搜索词并恢复展示全部告警；对应按钮在点击 `Query` 后可用，取消后恢复不可用。
+- `SearchMessage` / `SearchName`：页面顶部的两个搜索输入框，分别按 `Message` 与 `Name` 字段过滤，比较时不区分大小写，首尾空白会被忽略。
+- `Query`：按当前 `SearchMessage` 与 `SearchName` 过滤列表，两个条件需同时满足；任一关键字为空时该条件不参与过滤，全部为空时展示全部。
+- `CancelQuery`：清空两个搜索框并恢复展示全部告警；对应按钮在点击 `Query` 后可用，取消后恢复不可用。
 - `AddTestAlarm`：追加一条 `Info` 级示例告警，并刷新当前列表。
 - `RemoveSelectedAlarm`：从全量集合中删除表格选中的告警，并刷新当前列表；未选中时不可用。
 
@@ -309,7 +312,7 @@ Disabled -> Idle
 
 ## 当前状态
 
-- `TrackLabClient`：主应用原型，已实现配置化设备布局、模块详情弹窗、只读 DI/DO 监视、DI 值切换演示和内存态告警列表；首页仍为占位内容
+- `TrackLabClient`：主应用原型，已实现配置化设备布局、模块详情弹窗、只读 DI/DO 监视、DI 值切换演示、内存态告警列表和关机/重启页面；首页仍为占位内容
 - `Core`：已包含模块反射创建、模块分层、有限状态机、IO、菜单管理和告警模型基础实现
 - `UI`：已包含 `ModuleControl`、`IODisplay`、状态与图标转换器、共享画刷及两套配色字典
 - `TrackLabSimulator`：仅有基础窗口，设备仿真逻辑待实现
