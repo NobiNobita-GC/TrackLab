@@ -26,7 +26,8 @@
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
                  VerticalContentAlignment="Center"
-                 Text="{Binding SearchMessage, UpdateSourceTrigger=PropertyChanged}" />
+                 Text="{Binding SearchMessage, UpdateSourceTrigger=PropertyChanged}"
+                 ToolTip="Message" />
 
         <Button x:Name="Query"
                 Width="80"
@@ -35,6 +36,15 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Content="Query" />
+
+        <TextBox Width="180"
+                 Height="30"
+                 Margin="590,0,0,0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}"
+                 ToolTip="Name" />
 
         <Button x:Name="CancelQuery"
                 Width="80"

@@ -35,6 +35,21 @@ namespace TrackLabClient.View.Log
         /// <summary>当前表格实际展示的告警，为 Alarms 按查询条件过滤后的结果。</summary>
         public ObservableCollection<AlarmItem> DisplayedAlarms { get; } = [];
 
+        private string _searchName = string.Empty;
+
+        public string SearchName
+        {
+            get => _searchName;
+            set
+            {
+                if (_searchName == value)
+                    return;
+
+                _searchName = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _searchMessage = string.Empty;
 
         public string SearchMessage
