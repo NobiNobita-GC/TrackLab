@@ -23,8 +23,8 @@ namespace TrackLabClient.View.Configuration
         public void Restart()
         {
             MessageBoxResult result = MessageBox.Show(
-                "Are you sure you want to shut down TrackLab?",
-                "Shut Down",
+                "Are you sure you want to Restart TrackLab?",
+                "Restart",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
