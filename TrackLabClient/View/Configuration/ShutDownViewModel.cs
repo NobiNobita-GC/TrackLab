@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using UI.Common;
 
 namespace TrackLabClient.View.Configuration
@@ -7,6 +8,17 @@ namespace TrackLabClient.View.Configuration
     {
         public void Shutdown()
         {
+            Application.Current.Shutdown();
+        }
+
+        public void Restart()
+        {
+            string? processPath = Environment.ProcessPath;
+
+            if (string.IsNullOrEmpty(processPath))
+                return;
+
+            Process.Start(processPath);
             Application.Current.Shutdown();
         }
     }

@@ -19,7 +19,8 @@
                         Height="100"
                         Margin="30"
                         Content="Restart"
-                        FontSize="22" />
+                        FontSize="22"
+                        x:Name="Restart"/>
 
             </StackPanel>
 
