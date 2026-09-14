@@ -76,6 +76,12 @@ namespace TrackLabClient.View.Log
             RefreshDisplayedAlarms();
         }
 
+        public void CancelQuery()
+        {
+            SearchMessage = string.Empty;
+            RefreshDisplayedAlarms();
+        }
+
         public void RemoveSelectedAlarm()
         {
             if (SelectedAlarm == null)
