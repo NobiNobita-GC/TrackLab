@@ -8,11 +8,29 @@ namespace TrackLabClient.View.Configuration
     {
         public void Shutdown()
         {
+            MessageBoxResult result = MessageBox.Show(
+                "Are you sure you want to shut down TrackLab?",
+                "Shut Down",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes)
+                return;
+
             Application.Current.Shutdown();
         }
 
         public void Restart()
         {
+            MessageBoxResult result = MessageBox.Show(
+                "Are you sure you want to shut down TrackLab?",
+                "Shut Down",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes)
+                return;
+
             string? processPath = Environment.ProcessPath;
 
             if (string.IsNullOrEmpty(processPath))
