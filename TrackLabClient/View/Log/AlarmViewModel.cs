@@ -13,6 +13,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "Robot",
+                Name = "CommunicationTimeout",
                 Level = AlarmLevel.Error,
                 Message = "Communication timeout",
                 Cause = "Robot controller is not responding",
@@ -23,6 +24,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "LoadPort",
+                Name = "DoorOpenFailed",
                 Level = AlarmLevel.Warning,
                 Message = "Door open failed",
                 Cause = "Door sensor is abnormal",
@@ -113,6 +115,7 @@ namespace TrackLabClient.View.Log
             {
                 Time = DateTime.Now,
                 Module = "Robot",
+                Name = "TestInfoAlarm",
                 Level = AlarmLevel.Info,
                 Message = "Test Info alarm",
                 Cause = "Test alarm",

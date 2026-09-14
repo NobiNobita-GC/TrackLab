@@ -83,6 +83,10 @@
                                         Binding="{Binding Module}"
                                         Header="Module" />
 
+                    <DataGridTextColumn Width="160"
+                                        Binding="{Binding Name}"
+                                        Header="Name" />
+
                     <DataGridTemplateColumn Width="120" Header="Level">
 
                         <DataGridTemplateColumn.CellTemplate>
