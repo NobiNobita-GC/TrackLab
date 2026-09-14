@@ -11,6 +11,10 @@
         "ViewModelType": "TrackLabClient.View.Status.StatusViewModel"
       },
       {
+        "Name": "Alarm List",
+        "ViewModelType": "TrackLabClient.View.Log.AlarmViewModel"
+      },
+      {
         "Name": "Shut Down",
         "ViewModelType": "TrackLabClient.View.Configuration.ShutDownViewModel"
       }
@@ -22,10 +26,6 @@
       {
         "Name": "Hardware Monitor",
         "ViewModelType": "TrackLabClient.View.Configuration.HardwareMonitorViewModel"
-      },
-      {
-        "Name": "Alarm List",
-        "ViewModelType": "TrackLabClient.View.Log.AlarmViewModel"
       }
     ]
   }
