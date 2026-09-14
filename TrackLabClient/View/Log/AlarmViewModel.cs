@@ -65,6 +65,20 @@ namespace TrackLabClient.View.Log
 
         public bool CanRemoveSelectedAlarm => SelectedAlarm != null;
 
+        private bool _canCancelQuery;
+
+        public bool CanCancelQuery
+        {
+            get => _canCancelQuery;
+            set
+            {
+                if (_canCancelQuery == value)
+                    return;
+                _canCancelQuery = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public AlarmViewModel()
         {
             RefreshDisplayedAlarms();
@@ -74,12 +88,14 @@ namespace TrackLabClient.View.Log
         public void Query()
         {
             RefreshDisplayedAlarms();
+            CanCancelQuery = true;
         }
 
         public void CancelQuery()
         {
             SearchMessage = string.Empty;
             RefreshDisplayedAlarms();
+            CanCancelQuery = false;
         }
 
         public void RemoveSelectedAlarm()
