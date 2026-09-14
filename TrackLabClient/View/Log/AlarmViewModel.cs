@@ -110,6 +110,7 @@ namespace TrackLabClient.View.Log
 
         public void CancelQuery()
         {
+            SearchName = string.Empty;
             SearchMessage = string.Empty;
             RefreshDisplayedAlarms();
             CanCancelQuery = false;
@@ -155,13 +156,16 @@ namespace TrackLabClient.View.Log
 
         private bool IsMatchSearchCondition(AlarmItem alarm)
         {
-            string keyword = SearchMessage?.Trim() ?? string.Empty;
+            string nameKeyword = SearchName?.Trim() ?? string.Empty;
+            string messageKeyword = SearchMessage?.Trim() ?? string.Empty;
 
-            // 未输入关键字时展示全部
-            if (keyword.Length == 0)
-                return true;
+            bool isNameMatch = nameKeyword.Length == 0
+                               || alarm.Name.Contains(nameKeyword, StringComparison.OrdinalIgnoreCase);
 
-            return alarm.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase);
+            bool isMessageMatch = messageKeyword.Length == 0
+                                  || alarm.Message.Contains(messageKeyword, StringComparison.OrdinalIgnoreCase);
+
+            return isNameMatch && isMessageMatch;
         }
     }
 }
