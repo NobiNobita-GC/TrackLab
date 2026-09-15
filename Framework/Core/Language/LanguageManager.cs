@@ -7,7 +7,10 @@ namespace Core.Language
     {
         private static string _languageType = "en";
 
-        private static readonly ResourceManager resourceManager = 
+        private static readonly ResourceManager phraseResourceManager =
+            new("Core.Language.Lang-Phrase", typeof(LanguageManager).Assembly);
+
+        private static readonly ResourceManager resourceManager =
             new("Core.Language.Lang-Word", typeof(LanguageManager).Assembly);
 
         public static event Action? LanguageChanged;
@@ -15,6 +18,15 @@ namespace Core.Language
         public static string GetString(string key)
         {
             key = key.Replace(" ", string.Empty);
+
+            CultureInfo culture = new(_languageType);
+
+            string? phrase = phraseResourceManager.GetString(key, culture);
+            if (!string.IsNullOrEmpty(phrase))
+            {
+                return phrase;
+            }
+
             string? value = resourceManager.GetString(key, new CultureInfo(_languageType));
             return string.IsNullOrEmpty(value) ? key : value;
         }
@@ -30,7 +42,7 @@ namespace Core.Language
             {
                 _languageType = "en";
             }
-            LanguageChanged?.Invoke();       
+            LanguageChanged?.Invoke();
         }
 
         public static string GetLanguage()
