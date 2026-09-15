@@ -43,6 +43,10 @@ namespace UI.Extension
             {
                 textBlock.Text = translatedText;
             }
+            else if (element is Button button)
+            {
+                button.Content = translatedText;
+            }
         }
     }
 }

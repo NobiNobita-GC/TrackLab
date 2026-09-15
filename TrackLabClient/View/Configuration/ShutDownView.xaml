@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="TrackLabClient.View.Configuration.ShutDownView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lan="clr-namespace:UI.Extension;assembly=UI">
 
     <Grid Background="{StaticResource PageBackgroundBrush}">
 
@@ -12,13 +13,13 @@
                         Width="200"
                         Height="100"
                         Margin="30"
-                        Content="Shut Down"
+                        lan:LanguageExtension.Text="Shut Down"
                         FontSize="22" />
 
                 <Button Width="200"
                         Height="100"
                         Margin="30"
-                        Content="Restart"
+                        lan:LanguageExtension.Text="Restart"
                         FontSize="22"
                         x:Name="Restart"/>
 
