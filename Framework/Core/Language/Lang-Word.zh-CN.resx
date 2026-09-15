@@ -121,4 +121,7 @@
   <data name="Restart" xml:space="preserve">
     <value>重启</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
 </root>

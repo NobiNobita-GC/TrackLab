@@ -91,7 +91,7 @@
                                               Data="{Binding Name, Converter={StaticResource StringToIconConverter}}"
                                               Fill="White"
                                               Stretch="Uniform" />
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                        <TextBlock VerticalAlignment="Center" lan:LanguageExtension.Text="{Binding Name}" />
                                     </StackPanel>
                                 </Button>
                             </DataTemplate>
