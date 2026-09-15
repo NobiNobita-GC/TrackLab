@@ -11,6 +11,7 @@
         Width="1200"
         Height="750"
         WindowStartupLocation="CenterScreen"
+        xmlns:lan="clr-namespace:UI.Extension;assembly=UI"
         WindowState="Maximized"
         WindowStyle="None"
         mc:Ignorable="d">
@@ -151,7 +152,7 @@
                                                       Data="{Binding Name, Converter={StaticResource StringToIconConverter}}"
                                                       Fill="White"
                                                       Stretch="Uniform" />
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                                <TextBlock VerticalAlignment="Center" lan:LanguageExtension.Text="{Binding Name}" />
                                             </StackPanel>
                                         </Button>
                                     </DataTemplate>

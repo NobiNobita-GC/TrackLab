@@ -26,6 +26,10 @@
       {
         "Name": "Hardware Monitor",
         "ViewModelType": "TrackLabClient.View.Configuration.HardwareMonitorViewModel"
+      },
+      {
+        "Name": "Language",
+        "ViewModelType": "TrackLabClient.View.Configuration.LanguageViewModel"
       }
     ]
   }

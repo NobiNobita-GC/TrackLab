@@ -25,14 +25,21 @@ namespace UI.Extension
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            string key = GetText(d);
+            UpdateText(d); 
+
+            LanguageManager.LanguageChanged += () => UpdateText(d);
+        }
+
+        private static void UpdateText(DependencyObject element)
+        {
+            string key = GetText(element);
 
             if (string.IsNullOrEmpty(key))
                 return;
 
             string translatedText = LanguageManager.GetString(key);
 
-            if (d is TextBlock textBlock)
+            if (element is TextBlock textBlock)
             {
                 textBlock.Text = translatedText;
             }
