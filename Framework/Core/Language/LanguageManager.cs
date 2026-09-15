@@ -32,5 +32,10 @@ namespace Core.Language
             }
             LanguageChanged?.Invoke();       
         }
+
+        public static string GetLanguage()
+        {
+            return _languageType.ToUpper();
+        }
     }
 }
