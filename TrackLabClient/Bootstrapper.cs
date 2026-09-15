@@ -4,6 +4,8 @@ using System.Windows;
 using TrackLabClient.View;
 using Core.IO;
 using Core.Modules;
+using Core.Config;
+using Core.Language;
 
 namespace TrackLabClient
 {
@@ -17,6 +19,13 @@ namespace TrackLabClient
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
             InitializeRuntimeData();
+
+            string? language = ConfigManager.Instance.GetConfig("Language");
+
+            if(!string.IsNullOrEmpty(language))
+            {
+                LanguageManager.ChangeLanguage(language);
+            }
 
             await DisplayRootViewForAsync<HomeViewModel>();
         }

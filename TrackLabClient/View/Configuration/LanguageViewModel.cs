@@ -1,4 +1,5 @@
-﻿using Core.Language;
+﻿using Core.Config;
+using Core.Language;
 using UI.Common;
 
 namespace TrackLabClient.View.Configuration
@@ -8,6 +9,8 @@ namespace TrackLabClient.View.Configuration
         public void SetLanguage(string language)
         {
             LanguageManager.ChangeLanguage(language);
+
+            ConfigManager.Instance.SetConfig("System.Language", language);
         }
     }
 }
