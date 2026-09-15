@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+using Core.Language;
+using System.Diagnostics;
 using System.Windows;
 using UI.Common;
 
@@ -9,8 +10,8 @@ namespace TrackLabClient.View.Configuration
         public void Shutdown()
         {
             MessageBoxResult result = MessageBox.Show(
-                "Are you sure you want to shut down TrackLab?",
-                "Shut Down",
+                LanguageManager.GetString("ShutdownConfirmation"),
+                LanguageManager.GetString("ShutDown"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
@@ -23,8 +24,8 @@ namespace TrackLabClient.View.Configuration
         public void Restart()
         {
             MessageBoxResult result = MessageBox.Show(
-                "Are you sure you want to Restart TrackLab?",
-                "Restart",
+                LanguageManager.GetString("RestartConfirmation"),
+                LanguageManager.GetString("Restart"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 

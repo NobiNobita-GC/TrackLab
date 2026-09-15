@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
 		Microsoft ResX Schema
@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HomePage" xml:space="preserve">
-    <value>Home page</value>
+    <value>Home Page</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System</value>
@@ -123,5 +123,134 @@
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="EquipmentOverview" xml:space="preserve">
+    <value>Track Equipment Overview</value>
+  </data>
+  <data name="Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="DI" xml:space="preserve">
+    <value>DI</value>
+  </data>
+  <data name="DO" xml:space="preserve">
+    <value>DO</value>
+  </data>
+  <data name="ToggleWaferPresent" xml:space="preserve">
+    <value>Toggle WaferPresent</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="NameLabel" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="IndexLabel" xml:space="preserve">
+    <value>Index:</value>
+  </data>
+  <data name="TypeLabel" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="StateLabel" xml:space="preserve">
+    <value>State:</value>
+  </data>
+  <data name="ModuleInformation" xml:space="preserve">
+    <value>Module Information</value>
+  </data>
+  <data name="HotPlate" xml:space="preserve">
+    <value>Hot Plate</value>
+  </data>
+  <data name="CoolPlate" xml:space="preserve">
+    <value>Cool Plate</value>
+  </data>
+  <data name="LoadPort" xml:space="preserve">
+    <value>Load Port</value>
+  </data>
+  <data name="Robot" xml:space="preserve">
+    <value>Robot</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Idle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="TemperatureUnavailable" xml:space="preserve">
+    <value>Temperature: -- °C</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Start Process</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>TRANSFER</value>
+  </data>
+  <data name="ProcessModule" xml:space="preserve">
+    <value>PROCESS MODULE</value>
+  </data>
+  <data name="LoadPortArea" xml:space="preserve">
+    <value>LOAD PORT</value>
+  </data>
+  <data name="ShutdownConfirmation" xml:space="preserve">
+    <value>Are you sure you want to shut down TrackLab?</value>
+  </data>
+  <data name="RestartConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restart TrackLab?</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Chinese" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="CountLabel" xml:space="preserve">
+    <value>Count:</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Cause" xml:space="preserve">
+    <value>Cause</value>
+  </data>
+  <data name="Solution" xml:space="preserve">
+    <value>Solution</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddTestAlarm" xml:space="preserve">
+    <value>Add Test Alarm</value>
+  </data>
+  <data name="RemoveSelected" xml:space="preserve">
+    <value>Remove Selected</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="TrackLabClient.View.Configuration.LanguageView"
+<UserControl x:Class="TrackLabClient.View.Configuration.LanguageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lan="clr-namespace:UI.Extension;assembly=UI"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TrackLabClient.View.Configuration"
@@ -17,13 +18,13 @@
                 Height="100"
                 Margin="30"
                 cal:Message.Attach="[Event Click] = [Action SetLanguage('en')]"
-                Content="English" />
+                lan:LanguageExtension.Text="English" />
 
         <Button Width="200"
                 Height="100"
                 Margin="30"
                 cal:Message.Attach="[Event Click] = [Action SetLanguage('cn')]"
-                Content="中文" />
+                lan:LanguageExtension.Text="Chinese" />
 
     </StackPanel>
 

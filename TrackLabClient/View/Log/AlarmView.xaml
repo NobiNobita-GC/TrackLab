@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="TrackLabClient.View.Log.AlarmView"
+<UserControl x:Class="TrackLabClient.View.Log.AlarmView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lan="clr-namespace:UI.Extension;assembly=UI"
              xmlns:alarm="clr-namespace:Core.Alarm;assembly=Core">
 
     <Grid Background="{StaticResource PageBackgroundBrush}">
@@ -13,12 +14,12 @@
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontWeight="SemiBold"
-                   Text="Alarm" />
+                   lan:LanguageExtension.Text="AlarmList" />
 
-        <TextBlock Margin="120,0,0,0"
+        <StackPanel Orientation="Horizontal" Margin="140,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Text="{Binding DisplayedAlarms.Count, StringFormat='Count: {0}'}" />
+                   ><TextBlock Margin="0,0,6,0" lan:LanguageExtension.Text="CountLabel" /><TextBlock Text="{Binding DisplayedAlarms.Count}" /></StackPanel>
 
         <TextBox Width="180"
                  Height="30"
@@ -27,7 +28,7 @@
                  VerticalAlignment="Center"
                  VerticalContentAlignment="Center"
                  Text="{Binding SearchMessage, UpdateSourceTrigger=PropertyChanged}"
-                 ToolTip="Message" />
+                 ><TextBox.ToolTip><TextBlock lan:LanguageExtension.Text="Message" /></TextBox.ToolTip></TextBox>
 
         <Button x:Name="Query"
                 Width="80"
@@ -35,7 +36,7 @@
                 Margin="410,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="Query" />
+                lan:LanguageExtension.Text="Query" />
 
         <TextBox Width="180"
                  Height="30"
@@ -44,7 +45,7 @@
                  VerticalAlignment="Center"
                  VerticalContentAlignment="Center"
                  Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}"
-                 ToolTip="Name" />
+                 ><TextBox.ToolTip><TextBlock lan:LanguageExtension.Text="Name" /></TextBox.ToolTip></TextBox>
 
         <Button x:Name="CancelQuery"
                 Width="80"
@@ -52,7 +53,7 @@
                 Margin="500,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="Cancel" />
+                lan:LanguageExtension.Text="Cancel" />
 
         <Button x:Name="AddTestAlarm"
                 Width="120"
@@ -60,7 +61,7 @@
                 Margin="0,0,20,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Add Test Alarm" />
+                lan:LanguageExtension.Text="AddTestAlarm" />
 
         <Button x:Name="RemoveSelectedAlarm"
                 Width="140"
@@ -68,7 +69,7 @@
                 Margin="0,0,150,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Remove Selected" />
+                lan:LanguageExtension.Text="RemoveSelected" />
 
         <Border Grid.Row="1"
                 Margin="20"
@@ -87,17 +88,22 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="120"
                                         Binding="{Binding Time, StringFormat=HH:mm:ss}"
-                                        Header="Time" />
+                                        ><DataGridTextColumn.Header><TextBlock lan:LanguageExtension.Text="Time" /></DataGridTextColumn.Header></DataGridTextColumn>
 
-                    <DataGridTextColumn Width="120"
-                                        Binding="{Binding Module}"
-                                        Header="Module" />
+                    <DataGridTextColumn Width="120" Binding="{Binding Module}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Module" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn Width="160"
-                                        Binding="{Binding Name}"
-                                        Header="Name" />
+                    <DataGridTextColumn Width="160" Binding="{Binding Name}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Name" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTemplateColumn Width="120" Header="Level">
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.Header><TextBlock lan:LanguageExtension.Text="Level" /></DataGridTemplateColumn.Header>
 
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -127,17 +133,23 @@
 
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Message}"
-                                        Header="Message" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Message}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Message" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Cause}"
-                                        Header="Cause" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Cause}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Cause" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Solution}"
-                                        Header="Solution" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Solution}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Solution" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
 
             </DataGrid>

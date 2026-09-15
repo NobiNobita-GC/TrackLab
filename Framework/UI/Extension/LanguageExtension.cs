@@ -25,9 +25,46 @@ namespace UI.Extension
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            UpdateText(d); 
+            UpdateText(d);
+            if (d is FrameworkElement element)
+            {
+                element.Loaded -= OnLoaded;
+                element.Loaded += OnLoaded;
+                element.Unloaded -= OnUnloaded;
+                element.Unloaded += OnUnloaded;
+                if (element.IsLoaded)
+                    Subscribe(element);
+            }
+        }
 
-            LanguageManager.LanguageChanged += () => UpdateText(d);
+        private static readonly DependencyProperty HandlerProperty =
+            DependencyProperty.RegisterAttached("Handler", typeof(Action), typeof(LanguageExtension));
+
+        private static void Subscribe(FrameworkElement element)
+        {
+            if (element.GetValue(HandlerProperty) is Action)
+                return;
+
+            Action handler = () => element.Dispatcher.Invoke(() => UpdateText(element));
+            element.SetValue(HandlerProperty, handler);
+            LanguageManager.LanguageChanged += handler;
+        }
+
+        private static void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var element = (FrameworkElement)sender;
+            Subscribe(element);
+            UpdateText(element);
+        }
+
+        private static void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            var element = (FrameworkElement)sender;
+            if (element.GetValue(HandlerProperty) is Action handler)
+            {
+                LanguageManager.LanguageChanged -= handler;
+                element.ClearValue(HandlerProperty);
+            }
         }
 
         private static void UpdateText(DependencyObject element)

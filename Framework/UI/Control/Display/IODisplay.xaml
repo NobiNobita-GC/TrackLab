@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="UI.Control.Display.IODisplay"
+<UserControl x:Class="UI.Control.Display.IODisplay"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lan="clr-namespace:UI.Extension"
              x:Name="Root">
 
     <DataGrid AutoGenerateColumns="False"
@@ -12,16 +13,25 @@
         <DataGrid.Columns>
 
             <DataGridTextColumn Width="80"
-                                Binding="{Binding Index}"
-                                Header="Index" />
+                                Binding="{Binding Index}">
+                <DataGridTextColumn.Header>
+                    <TextBlock lan:LanguageExtension.Text="Index" />
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
 
             <DataGridTextColumn Width="*"
-                                Binding="{Binding Name}"
-                                Header="Name" />
+                                Binding="{Binding Name}">
+                <DataGridTextColumn.Header>
+                    <TextBlock lan:LanguageExtension.Text="Name" />
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
 
             <DataGridCheckBoxColumn Width="100"
-                                    Binding="{Binding Value, Mode=OneWay}"
-                                    Header="Value" />
+                                    Binding="{Binding Value, Mode=OneWay}">
+                <DataGridCheckBoxColumn.Header>
+                    <TextBlock lan:LanguageExtension.Text="Value" />
+                </DataGridCheckBoxColumn.Header>
+            </DataGridCheckBoxColumn>
 
         </DataGrid.Columns>
 
