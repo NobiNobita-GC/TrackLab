@@ -20,7 +20,7 @@ namespace TrackLabClient
         {
             InitializeRuntimeData();
 
-            string? language = ConfigManager.Instance.GetConfig("Language");
+            string? language = ConfigManager.Instance.GetConfig("System.Language");
 
             if(!string.IsNullOrEmpty(language))
             {
