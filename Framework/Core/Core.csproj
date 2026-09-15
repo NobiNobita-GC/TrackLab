@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Language\Lang-Phrase.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Lang-Phrase.resx</DependentUpon>
+    </Compile>
     <Compile Update="Language\Lang-Word.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -19,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Language\Lang-Phrase.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lang-Phrase.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Language\Lang-Word.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang-Word.Designer.cs</LastGenOutput>
