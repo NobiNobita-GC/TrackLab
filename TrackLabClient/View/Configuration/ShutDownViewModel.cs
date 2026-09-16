@@ -7,10 +7,11 @@ namespace TrackLabClient.View.Configuration
 {
     public class ShutDownViewModel : ViewModelBase
     {
+        private readonly string _langPrefix = "ShutDown";
         public void Shutdown()
         {
             MessageBoxResult result = MessageBox.Show(
-                LanguageManager.GetString("ShutdownConfirmation"),
+                LanguageManager.GetString(_langPrefix, "Confirm"),
                 LanguageManager.GetString("ShutDown"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -24,7 +25,7 @@ namespace TrackLabClient.View.Configuration
         public void Restart()
         {
             MessageBoxResult result = MessageBox.Show(
-                LanguageManager.GetString("RestartConfirmation"),
+                LanguageManager.GetString(_langPrefix, "Restart"),
                 LanguageManager.GetString("Restart"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);

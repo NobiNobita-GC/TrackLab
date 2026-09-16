@@ -100,4 +100,10 @@
   <data name="Status.NeedRecipe" xml:space="preserve">
     <value>请选择配方！</value>
   </data>
+  <data name="ShutDown.Confirm" xml:space="preserve">
+    <value>确定退出程序？</value>
+  </data>
+  <data name="ShutDown.Restart" xml:space="preserve">
+    <value>确定重启程序？</value>
+  </data>
 </root>

@@ -31,6 +31,11 @@ namespace Core.Language
             return string.IsNullOrEmpty(value) ? key : value;
         }
 
+        public static string GetString(string prefix, string key)
+        {
+            return GetString($"{prefix}.{key}");
+        }
+
         public static void ChangeLanguage(string cultureCode)
         {
             if (cultureCode.Equals("cn", StringComparison.OrdinalIgnoreCase)
