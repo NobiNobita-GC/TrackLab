@@ -48,5 +48,29 @@ namespace Core.Recipe
             string content = File.ReadAllText(FullPath);
             RecipeData = RecipeData.FromJsonString(content);
         }
+
+        public void Load()
+        {
+            if (!File.Exists(FullPath) || RecipeData == null)
+            {
+                return;
+            }
+
+            RecipeData? recipeData =
+                RecipeData.FromJsonString(File.ReadAllText(FullPath));
+
+            RecipeData.Copy(recipeData);
+        }
+
+        public void Save()
+        {
+            if (IsFolder || RecipeData == null)
+            {
+                return;
+            }
+
+            string content = RecipeData.ToJsonString();
+            File.WriteAllText(FullPath, content);
+        }
     }
 }
