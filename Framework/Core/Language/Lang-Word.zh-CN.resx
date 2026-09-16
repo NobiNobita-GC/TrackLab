@@ -208,12 +208,6 @@
   <data name="LoadPortArea" xml:space="preserve">
     <value>装载区</value>
   </data>
-  <data name="ShutdownConfirmation" xml:space="preserve">
-    <value>确定要关闭 TrackLab 吗？</value>
-  </data>
-  <data name="RestartConfirmation" xml:space="preserve">
-    <value>确定要重启 TrackLab 吗？</value>
-  </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
