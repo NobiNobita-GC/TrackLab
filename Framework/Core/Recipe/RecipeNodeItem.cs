@@ -26,6 +26,22 @@ namespace Core.Recipe
             FullPath = directory.FullName;
             Parent = parent;
             IsFolder = true;
+
+            foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+            {
+                SubNodes.Add(new RecipeNodeItem(subDirectory, this));
+            }
+        }
+
+        public RecipeNodeItem(FileInfo file, RecipeNodeItem parent)
+        {
+            Name = Path.GetFileNameWithoutExtension(file.Name);
+            FullPath = file.FullName;
+            Parent = parent;
+            IsFolder = false;
+
+            string content = File.ReadAllText(FullPath);
+            RecipeData = RecipeData.FromJsonString(content);
         }
     }
 }
