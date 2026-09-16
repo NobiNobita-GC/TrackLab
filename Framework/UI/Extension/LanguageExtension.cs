@@ -74,7 +74,16 @@ namespace UI.Extension
             if (string.IsNullOrEmpty(key))
                 return;
 
-            string translatedText = LanguageManager.GetString(key);
+            string translatedText;
+
+            if (key.EndsWith(':'))
+            {
+                translatedText = LanguageManager.GetString(key.TrimEnd(':')) + ":";
+            }
+            else
+            {
+                translatedText = LanguageManager.GetString(key);
+            }
 
             if (element is TextBlock textBlock)
             {
