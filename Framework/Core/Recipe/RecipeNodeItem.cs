@@ -31,6 +31,11 @@ namespace Core.Recipe
             {
                 SubNodes.Add(new RecipeNodeItem(subDirectory, this));
             }
+
+            foreach (FileInfo file in directory.GetFiles("*.json"))
+            {
+                SubNodes.Add(new RecipeNodeItem(file, this));
+            }
         }
 
         public RecipeNodeItem(FileInfo file, RecipeNodeItem parent)
