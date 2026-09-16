@@ -367,15 +367,6 @@ namespace Core.Language {
         }
         
         /// <summary>
-        ///   查找类似 Are you sure you want to restart TrackLab? 的本地化字符串。
-        /// </summary>
-        internal static string RestartConfirmation {
-            get {
-                return ResourceManager.GetString("RestartConfirmation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Robot 的本地化字符串。
         /// </summary>
         internal static string Robot {
