@@ -2,7 +2,7 @@
 
 namespace Core.Recipe
 {
-    public class RecipeNodeItem
+    public class RecipeNodeItem : ICloneable
     {
         public bool IsFolder { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -104,6 +104,30 @@ namespace Core.Recipe
 
             string content = RecipeData.ToJsonString();
             RecipeManager.Instance.SaveRecipeData(FullPath, content);
+        }
+        public object Clone()
+        {
+            RecipeNodeItem cloneNode = (RecipeNodeItem)MemberwiseClone();
+
+            cloneNode.RecipeData = RecipeData.FromJsonString(RecipeData?.ToJsonString() ?? string.Empty);
+
+            return cloneNode;
+        }
+
+        public void Paste(string newName, string newPath, RecipeNodeItem parentNode)
+        {
+            Name = newName;
+            FullPath = newPath;
+            Parent = parentNode;
+
+            parentNode.SubNodes.Add(this);
+
+            if (!File.Exists(newPath))
+            {
+                File.Create(newPath).Dispose();
+            }
+
+            Save();
         }
     }
 }

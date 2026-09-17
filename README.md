@@ -13,7 +13,7 @@
 - 硬件监视页共享 `IODisplay` 控件查看 DI/DO，支持切换示例 DI 值
 - 告警列表：按 `Name` / `Message` 双条件查询、取消查询、增删告警
 - 中英文全界面切换（菜单、枚举、表头、弹窗），语言偏好持久化到本地
-- Recipe 配方管理基础层：文件夹树 + Header / Step / Config 三级结构，支持 JSON 读写
+- Recipe 配方管理基础层：文件夹树 + Header / Step / Config 三级结构，支持路径查找、类型识别与 JSON 读写
 - 无边框最大化窗口，支持重启与关闭
 
 ## 技术栈
@@ -144,9 +144,20 @@ TrackLabClient ──┬──> Core
 
 | 类型 | 职责 |
 | --- | --- |
-| `RecipeManager` | 单例，提供 `Recipes/` 根路径 |
-| `RecipeNodeItem` | 递归构建目录树，区分文件夹与 `.json` 配方，提供 `Load()` / `Save()` |
+| `RecipeManager` | 单例，提供 `Recipes/` 根路径、配方树、按相对路径查找节点，以及递归枚举全部配方 |
+| `RecipeNodeItem` | 递归构建目录树，区分文件夹与 `.json` 配方；提供类型、相对路径以及 `Load()` / `Save()` |
 | `RecipeData` | 配方内容：`Header` / `Config` 为键值对，`Step` 为键值对列表；支持 JSON 序列化与 `Copy()` |
+
+`RecipeNodeItem` 暴露的相对配方路径不包含 `.json` 扩展名。例如 `Recipes\ProcessA\Demo.json` 对应：
+
+| 属性 | 值 | 说明 |
+| --- | --- | --- |
+| `Name` | `Demo` | 配方文件名 |
+| `PathWithType` | `ProcessA\Demo` | 相对 `Recipes/` 根目录的完整配方路径 |
+| `RecipeType` | `ProcessA` | 相对路径的第一层目录 |
+| `Path` | `Demo` | 去除第一层类型目录后的路径 |
+
+`FindNodeByPath()` 使用 `PathWithType` 格式查找配方节点；`FindAllRecipe()` 会递归返回树中的所有 `.json` 配方节点。
 
 > 该层目前仅提供数据模型与文件读写能力，**尚未接入任何界面**；`Lang-Phrase` 中已预留 `Status.NeedRecipe` 提示语。
 
