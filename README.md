@@ -2,7 +2,7 @@
 
 基于 .NET 8 + WPF 的设备模块监控原型，用于配置设备模块、查看模块运行状态与 DI/DO 点位，并实践模块化桌面应用的组织方式。
 
-> ⚠️ 原型阶段：模块状态、IO 数据和告警记录均保存在内存中，重启即恢复初始值，尚未接入真实设备或持久化。
+> ⚠️ 原型阶段：模块状态、IO 数据和告警记录均保存在内存中，重启即恢复初始值。Recipe 与用户配置为文件存储，但 Recipe 尚无界面。整体未接入真实设备。
 
 ## 功能
 
@@ -12,7 +12,8 @@
 - 状态色块 + 按模块类型打开的详情弹窗
 - 硬件监视页共享 `IODisplay` 控件查看 DI/DO，支持切换示例 DI 值
 - 告警列表：按 `Name` / `Message` 双条件查询、取消查询、增删告警
-- 中英文界面切换，语言偏好持久化到本地
+- 中英文全界面切换（菜单、枚举、表头、弹窗），语言偏好持久化到本地
+- Recipe 配方管理基础层：文件夹树 + Header / Step / Config 三级结构，支持 JSON 读写
 - 无边框最大化窗口，支持重启与关闭
 
 ## 技术栈
@@ -23,7 +24,7 @@
 | WPF | Windows 桌面界面 |
 | Caliburn.Micro | 4.0.230 — MVVM、视图定位、动作绑定 |
 | Newtonsoft.Json | 13.0.4 — 菜单配置反序列化 |
-| System.Text.Json | 模块配置与用户配置反序列化 |
+| System.Text.Json | 模块配置、用户配置与 Recipe 反序列化 |
 
 ## 环境要求
 
@@ -76,7 +77,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 ```text
 TrackLab/
 ├─ Framework/
-│  ├─ Core/          # 领域层：模块基类、状态机、IO、菜单、告警、配置、多语言
+│  ├─ Core/          # 领域层：模块基类、状态机、IO、菜单、告警、Recipe、配置、多语言
 │  └─ UI/            # 通用层：控件、转换器、图标、主题、多语言扩展
 ├─ TrackLabClient/   # 主应用：Bootstrapper、Config、Modules、View
 └─ TrackLabSimulator/# 模拟器骨架
@@ -102,6 +103,8 @@ TrackLabClient ──┬──> Core
 新增页面需四步：建 `XxxView.xaml` + `XxxViewModel.cs` 配对 → 继承 `ViewModelBase` 且有无参构造函数 → 登记到 `MenuConfig.json` → 在 `VectorIcons.xaml` 添加图标（key = 去掉空格的菜单名 + `Icon`）。
 
 > `MenuManager` 启动时递归实例化所有菜单 ViewModel，类型名写错或缺无参构造函数会导致启动失败。
+
+> `Name` 同时充当界面翻译的 key（去掉空格后在 `Lang-Word` 中查找）。新增菜单若忘记补翻译条目，界面会直接显示英文原名——不会报错，但中英文切换对该项无效。
 
 ### 模块 `Config/ModuleConfig.json`
 
@@ -129,16 +132,46 @@ TrackLabClient ──┬──> Core
 3. 未匹配的占位符保留为普通文本；匹配成功的控件继承其行/列与跨行列设置。
 4. 该文件不编译为页面，仅复制到输出目录，改动后需重新构建。
 
+> 模块占位符必须用普通 `Text="LP01"` 书写，**不能**改用 `lan:LanguageExtension.Text`——替换逻辑读取的是 `TextBlock.Text`，改用附加属性会导致匹配失败。区域标题（`LoadPortArea` 等）不受此限制。
+
 ### 用户配置 `Config/UserConfig.json`
 
 `ConfigManager` 以键值对形式读写该文件，首次运行不存在时会自动创建。当前用于保存语言偏好（键 `System.Language`）。
 
+### Recipe 配方
+
+配方以文件夹树组织。`RecipeManager` 在输出目录下维护 `Recipes/` 根目录（首次运行自动创建，不属于 `Config/`，也不随构建复制）。
+
+| 类型 | 职责 |
+| --- | --- |
+| `RecipeManager` | 单例，提供 `Recipes/` 根路径 |
+| `RecipeNodeItem` | 递归构建目录树，区分文件夹与 `.json` 配方，提供 `Load()` / `Save()` |
+| `RecipeData` | 配方内容：`Header` / `Config` 为键值对，`Step` 为键值对列表；支持 JSON 序列化与 `Copy()` |
+
+> 该层目前仅提供数据模型与文件读写能力，**尚未接入任何界面**；`Lang-Phrase` 中已预留 `Status.NeedRecipe` 提示语。
+
 ### 多语言
 
-资源文件位于 `Framework/Core/Language/`（`Lang-Word.resx` / `.en.resx` / `.zh-CN.resx`）。XAML 中通过附加属性使用，key 会自动去除空格：
+资源按用途分为两组，均位于 `Framework/Core/Language/`：
+
+| 文件 | 用途 | 示例 key |
+| --- | --- | --- |
+| `Lang-Word.*.resx` | 单词与短语（菜单、表头、按钮、枚举值） | `AlarmList`、`HotPlate`、`Running` |
+| `Lang-Phrase.*.resx` | 完整句子（提示语、确认框） | `Status.NeedRecipe`、`ShutDown.Confirm` |
+
+每组含默认、`.en`、`.zh-CN` 三个变体，key 须保持一致。`GetString` **先查 `Lang-Phrase`，再查 `Lang-Word`**，均未命中时原样返回 key。
+
+XAML 通过附加属性使用，key 会自动去除空格；枚举值同样可翻译：
 
 ```xml
-<Button lan:LanguageExtension.Text="Shut Down" />
+<TextBlock lan:LanguageExtension.Text="ModuleInformation" />
+<TextBlock lan:LanguageExtension.Text="{Binding Module.State}" />
+```
+
+代码中可用前缀重载，等价于 `"ShutDown" + "." + "Confirm"`：
+
+```csharp
+LanguageManager.GetString("ShutDown", "Confirm");
 ```
 
 语言切换时 `LanguageManager.LanguageChanged` 触发，`LanguageExtension` 自动刷新已挂载的控件文本。
@@ -166,7 +199,7 @@ Disabled → Idle
 | 项目 | 状态 |
 | --- | --- |
 | TrackLabClient | 布局、详情、DI/DO 监视、告警、关机、语言切换均已实现；首页为占位 |
-| Core | 模块反射加载、FSM、IO、菜单、告警、配置、多语言已实现 |
+| Core | 模块反射加载、FSM、IO、菜单、告警、配置、多语言已实现；Recipe 仅有数据层 |
 | UI | `ModuleControl`、`IODisplay`、转换器、两套主题已实现 |
 | TrackLabSimulator | 仅空窗口 |
 | 测试 | 尚无测试项目 |
@@ -176,6 +209,7 @@ Disabled → Idle
 ## Roadmap
 
 - [ ] 接入真实设备通信或设备抽象层
+- [ ] 为 Recipe 补充界面（配方树浏览、Step / Config 编辑）
 - [ ] IO / 状态 / 告警迁移到持久化存储
 - [ ] 实现 Simulator 仿真与通信
 - [ ] 告警查询接入真实数据，补充确认与清除流程
