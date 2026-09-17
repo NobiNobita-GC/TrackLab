@@ -18,7 +18,11 @@
         "Name": "Shut Down",
         "ViewModelType": "TrackLabClient.View.Configuration.ShutDownViewModel"
       }
-    ]  
+    ]
+  },
+  {
+    "Name":"Recipe",
+    "ViewModelType": "TrackLabClient.View.Recipe.RecipeViewModel"
   },
   {
     "Name": "Setup",

@@ -76,5 +76,22 @@ namespace Core.Recipe
                 File.WriteAllText(fullFilePath, content);
             }
         }
+
+        //生成不重复的配方副本名称
+        public string GetCopyName(string sourceName, RecipeNodeItem parentNode)
+        {
+            for (int i = 1; i < int.MaxValue; i++)
+            {
+                string newName = $"{sourceName}({i})";
+                string newPath = Path.Combine(parentNode.FullPath, $"{newName}.json");
+
+                if (!File.Exists(newPath))
+                {
+                    return newName;
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }
