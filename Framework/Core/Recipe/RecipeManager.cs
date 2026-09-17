@@ -29,5 +29,12 @@ namespace Core.Recipe
         {
             return _rootPath;
         }
+        public void SaveRecipeData(string fullFilePath, string content)
+        {
+            if (File.Exists(fullFilePath))
+            {
+                File.WriteAllText(fullFilePath, content);
+            }
+        }
     }
 }

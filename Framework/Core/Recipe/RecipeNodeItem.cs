@@ -70,7 +70,7 @@ namespace Core.Recipe
             }
 
             string content = RecipeData.ToJsonString();
-            File.WriteAllText(FullPath, content);
+            RecipeManager.Instance.SaveRecipeData(FullPath, content);
         }
     }
 }
