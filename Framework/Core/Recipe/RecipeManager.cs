@@ -48,6 +48,23 @@ namespace Core.Recipe
             return findNode;
         }
 
+        public IEnumerable<RecipeNodeItem> FindAllRecipe()
+        {
+            return FindAllNode(_recipeNodeItem).Where(x => !x.IsFolder);
+        }
+
+        private IEnumerable<RecipeNodeItem> FindAllNode(RecipeNodeItem node)
+        {
+            List<RecipeNodeItem> nodes = [node];
+
+            foreach (RecipeNodeItem child in node.SubNodes)
+            {
+                nodes.AddRange(FindAllNode(child));
+            }
+
+            return nodes;
+        }
+
         public string GetRootPath()
         {
             return _rootPath;
