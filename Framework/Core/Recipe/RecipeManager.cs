@@ -4,6 +4,8 @@ namespace Core.Recipe
 {
     public sealed class RecipeManager
     {
+        internal const string RecipeFileExtension = ".rp";
+
         public static RecipeManager Instance { get; } = new();
 
         private readonly string _rootPath;
@@ -83,7 +85,7 @@ namespace Core.Recipe
             for (int i = 1; i < int.MaxValue; i++)
             {
                 string newName = $"{sourceName}({i})";
-                string newPath = Path.Combine(parentNode.FullPath, $"{newName}.json");
+                string newPath = Path.Combine(parentNode.FullPath, $"{newName}{RecipeFileExtension}");
 
                 if (!File.Exists(newPath))
                 {

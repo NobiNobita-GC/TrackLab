@@ -65,7 +65,7 @@ namespace Core.Recipe
                 SubNodes.Add(new RecipeNodeItem(subDirectory, this));
             }
 
-            foreach (FileInfo file in directory.GetFiles("*.json"))
+            foreach (FileInfo file in directory.GetFiles($"*{RecipeManager.RecipeFileExtension}"))
             {
                 SubNodes.Add(new RecipeNodeItem(file, this));
             }
