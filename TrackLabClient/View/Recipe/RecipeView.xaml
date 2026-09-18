@@ -90,6 +90,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="180" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="180" />
                     </Grid.RowDefinitions>
 
                     <!--  当前配方  -->
@@ -153,53 +154,228 @@
 
                         <DataGrid Margin="10"
                                   AutoGenerateColumns="False"
+                                  AlternatingRowBackground="#FAFBFD"
+                                  Background="White"
+                                  BorderBrush="{StaticResource PanelBorderBrush}"
+                                  BorderThickness="1"
                                   CanUserAddRows="False"
+                                  CanUserResizeColumns="False"
+                                  CanUserResizeRows="False"
+                                  ColumnHeaderHeight="38"
+                                  GridLinesVisibility="All"
+                                  HeadersVisibility="Column"
+                                  HorizontalGridLinesBrush="{StaticResource PanelBorderBrush}"
+                                  HorizontalScrollBarVisibility="Disabled"
                                   IsReadOnly="True"
-                                  ItemsSource="{Binding SelectedRecipe.RecipeData.Step}">
+                                  ItemsSource="{Binding SelectedRecipe.RecipeData.Step}"
+                                  RowHeaderWidth="0"
+                                  RowHeight="42"
+                                  SelectionUnit="FullRow"
+                                  VerticalGridLinesBrush="{StaticResource PanelBorderBrush}">
+
+                            <DataGrid.Resources>
+                                <Style x:Key="CenteredCellTextStyle" TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+
+                                <Style x:Key="PopupCellButtonStyle" TargetType="ToggleButton">
+                                    <Setter Property="Padding" Value="10,0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Cursor" Value="Hand" />
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border x:Name="CellBackground"
+                                                        Background="{TemplateBinding Background}">
+                                                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="CellBackground" Property="Background" Value="#F1F6FC" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="CellBackground" Property="Background" Value="#EAF3FF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Padding" Value="10,0" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource PanelBorderBrush}" />
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGrid.Resources>
+
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Padding" Value="10,0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Background" Value="#F3F6FA" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource PanelBorderBrush}" />
+                                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Foreground" Value="#3F4A5A" />
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
 
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn Width="*" Header="Step Data">
+                                <DataGridTextColumn Width="80"
+                                                    Binding="{Binding [StepNo]}"
+                                                    ElementStyle="{StaticResource CenteredCellTextStyle}"
+                                                    Header="Step No" />
 
+                                <DataGridTextColumn Width="130"
+                                                    Binding="{Binding [ModuleType]}"
+                                                    ElementStyle="{StaticResource CenteredCellTextStyle}"
+                                                    Header="Module Type" />
+
+                                <DataGridTemplateColumn Width="*" Header="Module Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
+                                            <Grid Margin="-10,0">
+                                                <ToggleButton x:Name="ModuleNameButton"
+                                                              Style="{StaticResource PopupCellButtonStyle}">
+                                                    <DockPanel>
+                                                        <TextBlock Margin="0,0,8,0"
+                                                                   VerticalAlignment="Center"
+                                                                   DockPanel.Dock="Right"
+                                                                   Foreground="#7A8799"
+                                                                   Text="•••" />
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   Text="{Binding [ModuleName]}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DockPanel>
+                                                </ToggleButton>
 
-                                            <ItemsControl ItemsSource="{Binding}">
-
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-
-                                                        <Border Margin="4"
-                                                                Padding="8,4"
-                                                                BorderBrush="{StaticResource PanelBorderBrush}"
-                                                                BorderThickness="1"
-                                                                CornerRadius="3">
-
-                                                            <StackPanel Orientation="Horizontal">
-
-                                                                <TextBlock FontWeight="SemiBold" Text="{Binding Key}" />
-
-                                                                <TextBlock Margin="8,0,0,0" Text="{Binding Value}" />
-
-                                                            </StackPanel>
-
-                                                        </Border>
-
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-
-                                            </ItemsControl>
-
+                                                <Popup AllowsTransparency="True"
+                                                       IsOpen="{Binding IsChecked, ElementName=ModuleNameButton, Mode=TwoWay}"
+                                                       Placement="Bottom"
+                                                       PlacementTarget="{Binding ElementName=ModuleNameButton}"
+                                                       PopupAnimation="Fade"
+                                                       StaysOpen="False">
+                                                    <Border Width="600"
+                                                            MaxHeight="280"
+                                                            Margin="0,4,0,0"
+                                                            Padding="16"
+                                                            Background="White"
+                                                            BorderBrush="#AFCBEE"
+                                                            BorderThickness="1"
+                                                            CornerRadius="6">
+                                                        <StackPanel>
+                                                            <TextBlock Margin="0,0,0,10"
+                                                                       FontSize="14"
+                                                                       FontWeight="SemiBold"
+                                                                       Text="Module Name" />
+                                                            <ScrollViewer MaxHeight="220" VerticalScrollBarVisibility="Auto">
+                                                                <TextBox Background="Transparent"
+                                                                         BorderThickness="0"
+                                                                         IsReadOnly="True"
+                                                                         Text="{Binding [ModuleName]}"
+                                                                         TextWrapping="Wrap" />
+                                                            </ScrollViewer>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-
                                 </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Recipe Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="-10,0">
+                                                <ToggleButton x:Name="RecipeNameButton"
+                                                              Style="{StaticResource PopupCellButtonStyle}">
+                                                    <DockPanel>
+                                                        <TextBlock Margin="0,0,8,0"
+                                                                   VerticalAlignment="Center"
+                                                                   DockPanel.Dock="Right"
+                                                                   Foreground="#7A8799"
+                                                                   Text="•••" />
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   Text="{Binding [RecipeName]}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DockPanel>
+                                                </ToggleButton>
+
+                                                <Popup AllowsTransparency="True"
+                                                       IsOpen="{Binding IsChecked, ElementName=RecipeNameButton, Mode=TwoWay}"
+                                                       Placement="Bottom"
+                                                       PlacementTarget="{Binding ElementName=RecipeNameButton}"
+                                                       PopupAnimation="Fade"
+                                                       StaysOpen="False">
+                                                    <Border Width="600"
+                                                            MaxHeight="280"
+                                                            Margin="0,4,0,0"
+                                                            Padding="16"
+                                                            Background="White"
+                                                            BorderBrush="#AFCBEE"
+                                                            BorderThickness="1"
+                                                            CornerRadius="6">
+                                                        <StackPanel>
+                                                            <TextBlock Margin="0,0,0,10"
+                                                                       FontSize="14"
+                                                                       FontWeight="SemiBold"
+                                                                       Text="Recipe Name" />
+                                                            <ScrollViewer MaxHeight="220" VerticalScrollBarVisibility="Auto">
+                                                                <TextBox Background="Transparent"
+                                                                         BorderThickness="0"
+                                                                         IsReadOnly="True"
+                                                                         Text="{Binding [RecipeName]}"
+                                                                         TextWrapping="Wrap" />
+                                                            </ScrollViewer>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Width="90"
+                                                    Binding="{Binding [IsValid]}"
+                                                    ElementStyle="{StaticResource CenteredCellTextStyle}"
+                                                    Header="Is Valid" />
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+
+                    </GroupBox>
+
+                    <!--  Config  -->
+                    <GroupBox Grid.Row="4"
+                              Margin="0,15,0,0"
+                              Header="Config">
+
+                        <DataGrid Margin="10"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding SelectedRecipe.RecipeData.Config}">
+
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn Width="200"
+                                                    Binding="{Binding Key}"
+                                                    Header="Key" />
+
+                                <DataGridTextColumn Width="*"
+                                                    Binding="{Binding Value}"
+                                                    Header="Value" />
 
                             </DataGrid.Columns>
 
