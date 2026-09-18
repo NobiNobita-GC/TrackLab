@@ -88,6 +88,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="180" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -143,6 +144,67 @@
                             </DataGrid.Columns>
 
                         </DataGrid>
+                    </GroupBox>
+
+                    <!--  Step  -->
+                    <GroupBox Grid.Row="3"
+                              Margin="0,15,0,0"
+                              Header="Step">
+
+                        <DataGrid Margin="10"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding SelectedRecipe.RecipeData.Step}">
+
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Width="*" Header="Step Data">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+                                            <ItemsControl ItemsSource="{Binding}">
+
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+
+                                                        <Border Margin="4"
+                                                                Padding="8,4"
+                                                                BorderBrush="{StaticResource PanelBorderBrush}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="3">
+
+                                                            <StackPanel Orientation="Horizontal">
+
+                                                                <TextBlock FontWeight="SemiBold" Text="{Binding Key}" />
+
+                                                                <TextBlock Margin="8,0,0,0" Text="{Binding Value}" />
+
+                                                            </StackPanel>
+
+                                                        </Border>
+
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+
+                                            </ItemsControl>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+
                     </GroupBox>
 
                 </Grid>
