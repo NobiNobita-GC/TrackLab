@@ -16,5 +16,33 @@ namespace TrackLabClient.View.Recipe
         {
             RecipeNodes = RecipeManager.Instance.GetRecipes();
         }
+
+        private RecipeNodeItem? _selectedRecipe;
+
+        public RecipeNodeItem? SelectedRecipe
+        {
+            get => _selectedRecipe;
+            set
+            {
+                if (_selectedRecipe == value)
+                {
+                    return;
+                }
+
+                _selectedRecipe = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void SelectedItemChanged(RecipeNodeItem? recipeNode)
+        {
+            if (recipeNode == null || recipeNode.IsFolder)
+            {
+                SelectedRecipe = null;
+                return;
+            }
+
+            SelectedRecipe = recipeNode;
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Core.Recipe
                 return new RecipeData();
             }
 
-            return JsonSerializer.Deserialize<RecipeData>(recipeContent);
+            return JsonSerializer.Deserialize<RecipeData>(recipeContent) ?? new RecipeData();
         }
 
         public void Copy(RecipeData? source)
