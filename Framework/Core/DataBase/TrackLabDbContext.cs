@@ -7,5 +7,6 @@ namespace Core.DataBase
         : DbContext(options)
     {
         public DbSet<OperationLogEntity> OperationLogs { get; set; }
+
     }
 }

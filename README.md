@@ -2,7 +2,7 @@
 
 基于 .NET 8 + WPF 的设备模块监控原型，用于配置设备模块、查看模块运行状态与 DI/DO 点位，并实践模块化桌面应用的组织方式。
 
-> ⚠️ 原型阶段：模块状态、IO 数据和告警记录均保存在内存中，重启即恢复初始值。Recipe 与用户配置为文件存储，但 Recipe 尚无界面。整体未接入真实设备。
+> ⚠️ 原型阶段：模块状态、IO 数据和告警记录均保存在内存中，重启即恢复初始值。Recipe 文件可在界面中只读浏览，用户配置保存在本地文件。整体未接入真实设备。
 
 ## 功能
 
@@ -12,8 +12,8 @@
 - 状态色块 + 按模块类型打开的详情弹窗
 - 硬件监视页共享 `IODisplay` 控件查看 DI/DO，支持切换示例 DI 值
 - 告警列表：按 `Name` / `Message` 双条件查询、取消查询、增删告警
-- 中英文全界面切换（菜单、枚举、表头、弹窗），语言偏好持久化到本地
-- Recipe 配方管理基础层：文件夹树 + Header / Step / Config 三级结构，支持路径查找、类型识别与 JSON 读写
+- 中英文界面切换（菜单及部分页面、枚举、表头、弹窗），语言偏好持久化到本地；Recipe 页面文案目前为英文
+- Recipe 配方浏览：按目录树查看 `.rp` 文件及只读的 Header / Step / Config；基础层支持路径查找、类型识别与 JSON 读写
 - 无边框最大化窗口，支持重启与关闭
 
 ## 技术栈
@@ -44,6 +44,7 @@ dotnet run --project .\TrackLabClient\TrackLabClient.csproj
 也可用 VS 打开 `TrackLab.sln`，将 `TrackLabClient` 设为启动项目。
 
 运行配置位于输出目录 `TrackLabClient/bin/Debug/net8.0-windows/Config/`。
+配方目录位于同级的 `Recipes/`；客户端启动并加载菜单时会自动创建空目录。仓库不附带配方文件，使用时需将 `.rp` 文件放入该目录，再重新启动客户端以加载目录树。
 
 <details>
 <summary>模拟器（可选，目前仅有空窗口）</summary>
@@ -63,6 +64,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 | `System → Status` | 设备状态 | 设备布局总览，点击模块打开详情 |
 | `System → Alarm List` | 告警列表 | 双条件查询、增删告警 |
 | `System → Shut Down` | 关机 | 关闭或重启（均需二次确认） |
+| `Recipe` | 配方 | 浏览 `.rp` 目录树，查看配方 Header、Step、Config |
 | `Setup → Hardware Monitor` | 硬件监视 | 选择模块查看 DI/DO，可切换 `WaferPresent` |
 | `Setup → Language` | 语言 | 切换 English / Chinese |
 
@@ -71,6 +73,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 1. `System → Status` → 点击热板 → `Start Process` / `Complete`，观察 `Idle → Running → Idle`。
 2. `Setup → Hardware Monitor` → 选择模块 → `Toggle WaferPresent`，观察 DI 值变化（表格本身只读）。
 3. `System → Alarm List` → 输入关键字 → `Query`（`Name` 与 `Message` 同时生效）→ `Cancel` 清空恢复全部。
+4. `Recipe` → 选择 `.rp` 配方 → 查看只读的 Header、Step、Config；点击 Step 中的 `Module Name` 或 `Recipe Name` 单元格可展开完整内容。
 
 ## 项目结构
 
@@ -136,19 +139,19 @@ TrackLabClient ──┬──> Core
 
 ### 用户配置 `Config/UserConfig.json`
 
-`ConfigManager` 以键值对形式读写该文件，首次运行不存在时会自动创建。当前用于保存语言偏好（键 `System.Language`）。
+`ConfigManager` 以键值对形式读写该文件。首次切换语言并写入配置时会创建文件；未写入前可以不存在。当前用于保存语言偏好（键 `System.Language`）。
 
 ### Recipe 配方
 
-配方以文件夹树组织。`RecipeManager` 在输出目录下维护 `Recipes/` 根目录（首次运行自动创建，不属于 `Config/`，也不随构建复制）。
+配方以文件夹树组织，文件扩展名为 `.rp`，内容为 JSON。`RecipeManager` 在运行目录下维护 `Recipes/` 根目录（首次实例化时自动创建，不属于 `Config/`，也不随构建复制）。当前页面在创建时读取目录树；运行期间外部新增文件后，需重新启动客户端才能重新扫描。
 
 | 类型 | 职责 |
 | --- | --- |
 | `RecipeManager` | 单例，提供 `Recipes/` 根路径、配方树、按相对路径查找节点，以及递归枚举全部配方 |
-| `RecipeNodeItem` | 递归构建目录树，区分文件夹与 `.json` 配方；提供类型、相对路径以及 `Load()` / `Save()` |
+| `RecipeNodeItem` | 递归构建目录树，区分文件夹与 `.rp` 配方；提供类型、相对路径以及 `Load()` / `Save()` |
 | `RecipeData` | 配方内容：`Header` / `Config` 为键值对，`Step` 为键值对列表；支持 JSON 序列化与 `Copy()` |
 
-`RecipeNodeItem` 暴露的相对配方路径不包含 `.json` 扩展名。例如 `Recipes\ProcessA\Demo.json` 对应：
+`RecipeNodeItem` 暴露的相对配方路径不包含 `.rp` 扩展名。例如 `Recipes\ProcessA\Demo.rp` 对应：
 
 | 属性 | 值 | 说明 |
 | --- | --- | --- |
@@ -157,9 +160,9 @@ TrackLabClient ──┬──> Core
 | `RecipeType` | `ProcessA` | 相对路径的第一层目录 |
 | `Path` | `Demo` | 去除第一层类型目录后的路径 |
 
-`FindNodeByPath()` 使用 `PathWithType` 格式查找配方节点；`FindAllRecipe()` 会递归返回树中的所有 `.json` 配方节点。
+`FindNodeByPath()` 使用 `PathWithType` 格式查找配方节点；`FindAllRecipe()` 会递归返回树中的所有 `.rp` 配方节点。
 
-> 该层目前仅提供数据模型与文件读写能力，**尚未接入任何界面**；`Lang-Phrase` 中已预留 `Status.NeedRecipe` 提示语。
+`Recipe` 菜单已接入只读浏览页面：左侧选择配方，右侧显示名称、类型以及 Header / Step / Config。Step 表格展示 `StepNo`、`ModuleType`、`ModuleName`、`RecipeName`、`IsValid`；点击较长的模块名或配方名可查看完整值。界面尚无新建、复制、编辑或保存操作；`RecipeNodeItem` 的读写与复制方法目前仅供代码调用。
 
 ### 多语言
 
@@ -210,7 +213,8 @@ Disabled → Idle
 | 项目 | 状态 |
 | --- | --- |
 | TrackLabClient | 布局、详情、DI/DO 监视、告警、关机、语言切换均已实现；首页为占位 |
-| Core | 模块反射加载、FSM、IO、菜单、告警、配置、多语言已实现；Recipe 仅有数据层 |
+| Core | 模块反射加载、FSM、IO、菜单、告警、配置、多语言和 Recipe 文件读写已实现 |
+| Recipe 页面 | 已实现 `.rp` 目录树和 Header / Step / Config 只读查看；尚无界面编辑与保存 |
 | UI | `ModuleControl`、`IODisplay`、转换器、两套主题已实现 |
 | TrackLabSimulator | 仅空窗口 |
 | 测试 | 尚无测试项目 |
@@ -220,7 +224,7 @@ Disabled → Idle
 ## Roadmap
 
 - [ ] 接入真实设备通信或设备抽象层
-- [ ] 为 Recipe 补充界面（配方树浏览、Step / Config 编辑）
+- [ ] 为 Recipe 页面补充新建、复制、Step / Config 编辑与保存
 - [ ] IO / 状态 / 告警迁移到持久化存储
 - [ ] 实现 Simulator 仿真与通信
 - [ ] 告警查询接入真实数据，补充确认与清除流程
