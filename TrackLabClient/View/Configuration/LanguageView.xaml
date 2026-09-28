@@ -26,10 +26,10 @@
                 cal:Message.Attach="[Event Click] = [Action SetLanguage('cn')]"
                 lan:LanguageExtension.Text="Chinese" />
 
-        <TextBlock Margin="20,0,0,0"
+        <!--<TextBlock Margin="20,0,0,0"
                    VerticalAlignment="Center"
                    FontSize=" 18"
-                   Text="{Binding CurrentLanguage}" />
+                   Text="{Binding CurrentLanguage}" />-->
 
     </StackPanel>
 

@@ -247,4 +247,43 @@
   <data name="RemoveSelected" xml:space="preserve">
     <value>删除选中项</value>
   </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>配方</value>
+  </data>
+  <data name="RecipeTree" xml:space="preserve">
+    <value>配方树</value>
+  </data>
+  <data name="RecipeDetail" xml:space="preserve">
+    <value>配方详情</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>头部信息</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>键</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>步骤</value>
+  </data>
+  <data name="StepNo" xml:space="preserve">
+    <value>步骤号</value>
+  </data>
+  <data name="ModuleType" xml:space="preserve">
+    <value>模块类型</value>
+  </data>
+  <data name="ModuleName" xml:space="preserve">
+    <value>模块名称</value>
+  </data>
+  <data name="RecipeName" xml:space="preserve">
+    <value>配方名称</value>
+  </data>
+  <data name="IsValid" xml:space="preserve">
+    <value>是否有效</value>
+  </data>
+  <data name="Config" xml:space="preserve">
+    <value>配置</value>
+  </data>
 </root>

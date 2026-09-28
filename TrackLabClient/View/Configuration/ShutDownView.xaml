@@ -13,7 +13,7 @@
                         Width="200"
                         Height="100"
                         Margin="30"
-                        lan:LanguageExtension.Text="Shut Down"
+                        lan:LanguageExtension.Text="ShutDown"
                         FontSize="22" />
 
                 <Button Width="200"
