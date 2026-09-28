@@ -4,6 +4,7 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:convert="clr-namespace:UI.Converts;assembly=UI"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lan="clr-namespace:UI.Extension;assembly=UI"
         xmlns:local="clr-namespace:TrackLabClient.View"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:menu="clr-namespace:Core.Menu;assembly=Core"
@@ -11,9 +12,7 @@
         Width="1200"
         Height="750"
         WindowStartupLocation="CenterScreen"
-        xmlns:lan="clr-namespace:UI.Extension;assembly=UI"
         WindowState="Maximized"
-        WindowStyle="None"
         mc:Ignorable="d">
 
     <Window.Resources>
