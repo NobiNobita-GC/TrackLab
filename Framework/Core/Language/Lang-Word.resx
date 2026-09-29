@@ -298,4 +298,10 @@
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="BeginTime" xml:space="preserve">
+    <value>Begin Time</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End Time</value>
+  </data>
 </root>

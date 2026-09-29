@@ -97,6 +97,15 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Begin Time 的本地化字符串。
+        /// </summary>
+        internal static string BeginTime {
+            get {
+                return ResourceManager.GetString("BeginTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         internal static string Cancel {
@@ -183,6 +192,15 @@ namespace Core.Language {
         internal static string DO {
             get {
                 return ResourceManager.GetString("DO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 End Time 的本地化字符串。
+        /// </summary>
+        internal static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
             }
         }
         

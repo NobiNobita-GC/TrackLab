@@ -51,8 +51,19 @@ namespace Core.DataBase
         public List<OperationLogEntity> GetOperationLogs()
         {
             using TrackLabDbContext context = CreateContext();
+
             return context.OperationLogs
                 .AsNoTracking()
+                .OrderByDescending(log => log.Time)
+                .ToList();
+        }
+
+        public List<OperationLogEntity> GetOperationLogs(DateTime beginTime, DateTime endTime)
+        {
+            using TrackLabDbContext context = CreateContext();
+            return context.OperationLogs
+                .AsNoTracking()
+                .Where(log => log.Time >= beginTime && log.Time <= endTime)
                 .OrderByDescending(log => log.Time)
                 .ToList();
         }
