@@ -59,6 +59,11 @@ namespace TrackLabClient.View.Log
             DateTime beginTime = BeginTime.Date;
             DateTime endTime = EndTime.Date.AddDays(1).AddTicks(-1);
 
+            if(beginTime > endTime)
+            {
+                return;
+            }
+
             Logs.Clear();
 
             List<OperationLogEntity> logs =
