@@ -1,4 +1,5 @@
 ﻿using Core.Config;
+using Core.Log;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.DataBase
@@ -38,6 +39,13 @@ namespace Core.DataBase
             using TrackLabDbContext context = CreateContext();
 
             return context.Database.CanConnect();
+        }
+
+        public void AddOperationLog(OperationLogEntity log)
+        {
+            using TrackLabDbContext context = CreateContext();
+            context.OperationLogs.Add(log);
+            context.SaveChanges();
         }
     }
 }

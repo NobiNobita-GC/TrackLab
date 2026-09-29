@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
+using Core.Config;
+using Core.DataBase;
+using Core.IO;
+using Core.Language;
+using Core.Log;
+using Core.Modules;
 using System.IO;
 using System.Windows;
 using TrackLabClient.View;
-using Core.IO;
-using Core.Modules;
-using Core.Config;
-using Core.Language;
 
 namespace TrackLabClient
 {
@@ -19,6 +21,13 @@ namespace TrackLabClient
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
             InitializeRuntimeData();
+
+            DBManager.Instance.AddOperationLog(new OperationLogEntity
+            {
+                Time = DateTime.Now,
+                User = "System",
+                Action = "TrackLab started"
+            });
 
             string? language = ConfigManager.Instance.GetConfig("System.Language");
 
