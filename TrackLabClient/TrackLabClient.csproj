@@ -1,38 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Page Remove="Config\LayoutConfig.xaml" />
-  </ItemGroup>
+	<ItemGroup>
+		<Page Remove="Config\LayoutConfig.xaml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Caliburn.Micro" Version="4.0.230" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Caliburn.Micro" Version="4.0.230" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Framework\Core\Core.csproj" />
-    <ProjectReference Include="..\Framework\UI\UI.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Framework\Core\Core.csproj" />
+		<ProjectReference Include="..\Framework\UI\UI.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Config\MenuConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-	  
-	<None Include="Config\LayoutConfig.xaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
+	<ItemGroup>
+		<None Update="Config\MenuConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 
-	<None Update="Config\ModuleConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-  </ItemGroup>
+		<None Include="Config\LayoutConfig.xaml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Config\ModuleConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Config\UserConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
