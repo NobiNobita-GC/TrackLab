@@ -12,9 +12,9 @@ using TrackLabClient.View;
 namespace TrackLabClient
 {
     public class Bootstrapper : BootstrapperBase
-    { 
+    {
         public Bootstrapper()
-        {          
+        {
             Initialize();
         }
 
@@ -29,9 +29,11 @@ namespace TrackLabClient
                 Action = "TrackLab started"
             });
 
+            List<OperationLogEntity> logs = DBManager.Instance.GetOperationLogs();
+
             string? language = ConfigManager.Instance.GetConfig("System.Language");
 
-            if(!string.IsNullOrEmpty(language))
+            if (!string.IsNullOrEmpty(language))
             {
                 LanguageManager.ChangeLanguage(language);
             }
