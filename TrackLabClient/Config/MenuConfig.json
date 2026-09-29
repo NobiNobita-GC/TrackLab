@@ -15,6 +15,10 @@
         "ViewModelType": "TrackLabClient.View.Log.AlarmViewModel"
       },
       {
+        "Name": "Operation Log",
+        "ViewModelType": "TrackLabClient.View.Log.OperationViewModel"
+      },
+      {
         "Name": "Shut Down",
         "ViewModelType": "TrackLabClient.View.Configuration.ShutDownViewModel"
       }

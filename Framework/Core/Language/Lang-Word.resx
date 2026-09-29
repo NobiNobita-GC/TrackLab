@@ -286,4 +286,16 @@
   <data name="Config" xml:space="preserve">
     <value>Config</value>
   </data>
+  <data name="OperationLog" xml:space="preserve">
+    <value>Operation Log</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

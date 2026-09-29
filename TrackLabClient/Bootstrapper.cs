@@ -29,7 +29,7 @@ namespace TrackLabClient
                 Action = "TrackLab started"
             });
 
-            List<OperationLogEntity> logs = DBManager.Instance.GetOperationLogs();
+            //List<OperationLogEntity> logs = DBManager.Instance.GetOperationLogs();
 
             string? language = ConfigManager.Instance.GetConfig("System.Language");
 

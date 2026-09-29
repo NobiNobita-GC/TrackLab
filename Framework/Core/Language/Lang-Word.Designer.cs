@@ -61,6 +61,15 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Action 的本地化字符串。
+        /// </summary>
+        internal static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Add Test Alarm 的本地化字符串。
         /// </summary>
         internal static string AddTestAlarm {
@@ -120,6 +129,15 @@ namespace Core.Language {
         internal static string Complete {
             get {
                 return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Config 的本地化字符串。
+        /// </summary>
+        internal static string Config {
+            get {
+                return ResourceManager.GetString("Config", resourceCulture);
             }
         }
         
@@ -196,6 +214,15 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Header 的本地化字符串。
+        /// </summary>
+        internal static string Header {
+            get {
+                return ResourceManager.GetString("Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Home Page 的本地化字符串。
         /// </summary>
         internal static string HomePage {
@@ -237,6 +264,24 @@ namespace Core.Language {
         internal static string IndexLabel {
             get {
                 return ResourceManager.GetString("IndexLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Is Valid 的本地化字符串。
+        /// </summary>
+        internal static string IsValid {
+            get {
+                return ResourceManager.GetString("IsValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Key 的本地化字符串。
+        /// </summary>
+        internal static string Key {
+            get {
+                return ResourceManager.GetString("Key", resourceCulture);
             }
         }
         
@@ -304,11 +349,29 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Module Name 的本地化字符串。
+        /// </summary>
+        internal static string ModuleName {
+            get {
+                return ResourceManager.GetString("ModuleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Modules 的本地化字符串。
         /// </summary>
         internal static string Modules {
             get {
                 return ResourceManager.GetString("Modules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Module Type 的本地化字符串。
+        /// </summary>
+        internal static string ModuleType {
+            get {
+                return ResourceManager.GetString("ModuleType", resourceCulture);
             }
         }
         
@@ -331,6 +394,15 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Operation Log 的本地化字符串。
+        /// </summary>
+        internal static string OperationLog {
+            get {
+                return ResourceManager.GetString("OperationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 PROCESS MODULE 的本地化字符串。
         /// </summary>
         internal static string ProcessModule {
@@ -345,6 +417,51 @@ namespace Core.Language {
         internal static string Query {
             get {
                 return ResourceManager.GetString("Query", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recipe 的本地化字符串。
+        /// </summary>
+        internal static string Recipe {
+            get {
+                return ResourceManager.GetString("Recipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recipe Detail 的本地化字符串。
+        /// </summary>
+        internal static string RecipeDetail {
+            get {
+                return ResourceManager.GetString("RecipeDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recipe Name 的本地化字符串。
+        /// </summary>
+        internal static string RecipeName {
+            get {
+                return ResourceManager.GetString("RecipeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recipe Tree 的本地化字符串。
+        /// </summary>
+        internal static string RecipeTree {
+            get {
+                return ResourceManager.GetString("RecipeTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Refresh 的本地化字符串。
+        /// </summary>
+        internal static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
         
@@ -439,6 +556,24 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Step 的本地化字符串。
+        /// </summary>
+        internal static string Step {
+            get {
+                return ResourceManager.GetString("Step", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Step No 的本地化字符串。
+        /// </summary>
+        internal static string StepNo {
+            get {
+                return ResourceManager.GetString("StepNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 System 的本地化字符串。
         /// </summary>
         internal static string System {
@@ -484,6 +619,15 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Type 的本地化字符串。
+        /// </summary>
+        internal static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Type: 的本地化字符串。
         /// </summary>
         internal static string TypeLabel {
@@ -498,6 +642,15 @@ namespace Core.Language {
         internal static string Unknown {
             get {
                 return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 User 的本地化字符串。
+        /// </summary>
+        internal static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
         
