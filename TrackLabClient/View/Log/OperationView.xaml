@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="TrackLabClient.View.Log.OperationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lan="clr-namespace:UI.Extension;assembly=UI">
+
+    <Grid Background="{StaticResource PageBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="20,0"
+                   VerticalAlignment="Center"
+                   lan:LanguageExtension.Text="OperationLog"
+                   FontSize="24"
+                   FontWeight="SemiBold" />
+
+        <StackPanel Margin="180,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBlock Margin="0,0,6,0" lan:LanguageExtension.Text="CountLabel" />
+            <TextBlock Text="{Binding Logs.Count}" />
+        </StackPanel>
+
+        <Button x:Name="Refresh"
+                Width="100"
+                Height="32"
+                Margin="0,0,20,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                lan:LanguageExtension.Text="Refresh" />
+
+        <Border Grid.Row="1"
+                Margin="20"
+                Padding="15"
+                Background="{StaticResource PanelBackgroundBrush}"
+                BorderBrush="{StaticResource PanelBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+
+            <DataGrid AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding Logs}">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Width="180" Binding="{Binding Time, StringFormat=yyyy-MM-dd HH:mm:ss}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Time" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Width="180" Binding="{Binding User}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="User" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Width="*" Binding="{Binding Action}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock lan:LanguageExtension.Text="Action" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>
