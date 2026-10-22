@@ -412,11 +412,29 @@ namespace Core.Language {
         }
         
         /// <summary>
+        ///   查找类似 Next 的本地化字符串。
+        /// </summary>
+        internal static string NextPage {
+            get {
+                return ResourceManager.GetString("NextPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Operation Log 的本地化字符串。
         /// </summary>
         internal static string OperationLog {
             get {
                 return ResourceManager.GetString("OperationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Previous 的本地化字符串。
+        /// </summary>
+        internal static string PreviousPage {
+            get {
+                return ResourceManager.GetString("PreviousPage", resourceCulture);
             }
         }
         

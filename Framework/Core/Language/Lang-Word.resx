@@ -304,4 +304,10 @@
   <data name="EndTime" xml:space="preserve">
     <value>End Time</value>
   </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

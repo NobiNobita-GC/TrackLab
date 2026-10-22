@@ -55,45 +55,102 @@ namespace TrackLabClient.View.Log
 
         private int PageSize { get; } = 5;
 
+        private bool _isQueryMode;
+
+        public bool CanPreviousPage =>
+            _isQueryMode && CurrentPage > 1;
+
+        public bool CanNextPage =>
+            _isQueryMode && Logs.Count == PageSize;
+
         public override void Active()
         {
             base.Active();
             Refresh();
         }
 
+
         public void Refresh()
         {
+            _isQueryMode = false;
+            CurrentPage = 1;
+
             Logs.Clear();
-            List<OperationLogEntity> logs = DBManager.Instance.GetOperationLogs();
-            foreach (var log in logs)
+
+            foreach (OperationLogEntity log in
+                     DBManager.Instance.GetOperationLogs())
             {
                 Logs.Add(log);
             }
+
+            UpdatePageButtons();
         }
 
         public void Query()
         {
+            if (TryLoadPage(1))
+            {
+                _isQueryMode = true;
+                UpdatePageButtons();
+            }
+        }
+
+        public void PreviousPage()
+        {
+            if (!CanPreviousPage)
+                return;
+
+            TryLoadPage(CurrentPage - 1);
+        }
+
+        public void NextPage()
+        {
+            if (!CanNextPage)
+                return;
+
+            TryLoadPage(CurrentPage + 1);
+        }
+
+        private bool TryLoadPage(int page)
+        {
+            if (page < 1)
+                return false;
+
             DateTime beginTime = BeginTime.Date;
             DateTime endTime = EndTime.Date.AddDays(1).AddTicks(-1);
 
-            if(beginTime > endTime)
-            {
-                return;
-            }
-
-            Logs.Clear();
+            if (beginTime > endTime)
+                return false;
 
             List<OperationLogEntity> logs =
                 DBManager.Instance.GetOperationLogs(
                     beginTime,
                     endTime,
-                    CurrentPage,
+                    page,
                     PageSize);
+
+            // 不允许翻到不存在的下一页
+            if (page > 1 && logs.Count == 0)
+                return false;
+
+            CurrentPage = page;
+
+            Logs.Clear();
 
             foreach (OperationLogEntity log in logs)
             {
                 Logs.Add(log);
             }
+
+            UpdatePageButtons();
+            return true;
         }
+
+        private void UpdatePageButtons()
+        {
+            NotifyOfPropertyChange(nameof(CanPreviousPage));
+            NotifyOfPropertyChange(nameof(CanNextPage));
+        }
+
     }
 }
