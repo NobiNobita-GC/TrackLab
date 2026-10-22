@@ -38,6 +38,23 @@ namespace TrackLabClient.View.Log
                 NotifyOfPropertyChange();
             }
         }
+
+        private int _currentPage = 1;
+
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set
+            {
+                if (_currentPage == value)
+                    return;
+                _currentPage = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private int PageSize { get; } = 5;
+
         public override void Active()
         {
             base.Active();
@@ -69,7 +86,9 @@ namespace TrackLabClient.View.Log
             List<OperationLogEntity> logs =
                 DBManager.Instance.GetOperationLogs(
                     beginTime,
-                    endTime);
+                    endTime,
+                    CurrentPage,
+                    PageSize);
 
             foreach (OperationLogEntity log in logs)
             {
