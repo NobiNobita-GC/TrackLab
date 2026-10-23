@@ -26,8 +26,10 @@
 | Caliburn.Micro | 4.0.230 — MVVM、视图定位、动作绑定 |
 | Newtonsoft.Json | 13.0.4 — 菜单配置反序列化 |
 | System.Text.Json | 模块配置、用户配置与 Recipe 反序列化 |
-| Entity Framework Core | 8.0.6 — 数据访问、数据库迁移 |
-| MySql.EntityFrameworkCore | 8.0.5 — MySQL 数据库提供程序 |
+| Entity Framework Core | 8.0.8 — 数据访问、数据库迁移 |
+| MySql.EntityFrameworkCore | 8.0.8 — MySQL 数据库提供程序 |
+
+> EF Core 相关包与 MySQL 提供程序统一使用 8.0.8，避免 `Microsoft.EntityFrameworkCore.Relational` 解析出多个版本。
 
 ## 环境要求
 
@@ -35,7 +37,7 @@
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - Visual Studio 2022 + “.NET 桌面开发”工作负载（推荐）
 - 可连接的 MySQL 服务，以及有权初始化 `TrackLab` 数据库和读写日志表的账号
-- EF Core CLI（`dotnet-ef` 8.0.6，用于应用已有迁移）
+- EF Core CLI（`dotnet-ef` 8.0.8 或更新版本，用于应用已有迁移）
 
 ## 快速开始
 
@@ -59,7 +61,7 @@ cd TrackLab
 dotnet build TrackLab.sln --configuration Debug
 
 # 仅在尚未安装 dotnet-ef 时执行
-dotnet tool install --global dotnet-ef --version 8.0.6
+dotnet tool install --global dotnet-ef --version 8.0.8
 
 # 首次部署或新增迁移后执行；会更新所配置的数据库
 dotnet ef database update --project .\Framework\Core\Core.csproj --startup-project .\TrackLabClient\TrackLabClient.csproj --configuration Debug --no-build
