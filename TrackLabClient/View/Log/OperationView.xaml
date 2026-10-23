@@ -107,7 +107,7 @@
 
             <TextBlock Margin="20,0"
                        VerticalAlignment="Center"
-                       Text="{Binding CurrentPage}" />
+                       Text="{Binding PageText}" />
 
             <Button x:Name="NextPage"
                     Width="90"

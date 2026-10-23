@@ -50,10 +50,40 @@ namespace TrackLabClient.View.Log
                     return;
                 _currentPage = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(PageText));
             }
         }
 
         private int PageSize { get; } = 5;
+
+
+        private int _totalCount;
+
+        public int TotalCount
+        {
+            get => _totalCount;
+            private set
+            {
+                if (_totalCount == value)
+                    return;
+
+                _totalCount = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TotalPages));
+                NotifyOfPropertyChange(nameof(PageText));
+            }
+        }
+
+        public int TotalPages =>
+            TotalCount == 0 ? 0 : (TotalCount - 1) / PageSize + 1;
+
+        public string PageText =>
+            !_isQueryMode
+                ? "—"
+                : TotalPages == 0
+                    ? "0 / 0"
+                    : $"{CurrentPage} / {TotalPages}";
+
 
         private bool _isQueryMode;
 
@@ -61,7 +91,7 @@ namespace TrackLabClient.View.Log
             _isQueryMode && CurrentPage > 1;
 
         public bool CanNextPage =>
-            _isQueryMode && Logs.Count == PageSize;
+            _isQueryMode && CurrentPage < TotalPages;
 
         public override void Active()
         {
@@ -74,6 +104,7 @@ namespace TrackLabClient.View.Log
         {
             _isQueryMode = false;
             CurrentPage = 1;
+            TotalCount = 0;
 
             Logs.Clear();
 
@@ -86,14 +117,27 @@ namespace TrackLabClient.View.Log
             UpdatePageButtons();
         }
 
+
         public void Query()
         {
+            DateTime beginTime = BeginTime.Date;
+            DateTime endTime = EndTime.Date.AddDays(1).AddTicks(-1);
+
+            if (beginTime > endTime)
+                return;
+
+            int totalCount = DBManager.Instance.GetOperationLogCount(
+                beginTime,
+                endTime);
+
             if (TryLoadPage(1))
             {
+                TotalCount = totalCount;
                 _isQueryMode = true;
                 UpdatePageButtons();
             }
         }
+
 
         public void PreviousPage()
         {
@@ -150,6 +194,7 @@ namespace TrackLabClient.View.Log
         {
             NotifyOfPropertyChange(nameof(CanPreviousPage));
             NotifyOfPropertyChange(nameof(CanNextPage));
+            NotifyOfPropertyChange(nameof(PageText));
         }
 
     }

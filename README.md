@@ -12,10 +12,10 @@
 - 状态色块 + 按模块类型打开的详情弹窗
 - 硬件监视页共享 `IODisplay` 控件查看 DI/DO，支持切换示例 DI 值
 - 告警列表：按 `Name` / `Message` 双条件查询、取消查询、增删告警
-- 操作日志：启动记录写入 MySQL，页面按时间倒序只读展示时间、用户、操作，支持刷新与记录数显示
+- 操作日志：启动记录写入 MySQL，页面按时间倒序只读展示；支持按日期范围查询、每页 5 条的上一页/下一页翻页，以及刷新恢复全部记录
 - 中英文界面切换（菜单、页面标题、按钮、枚举、表头和弹窗，包含 Recipe 与操作日志页面），语言偏好持久化到本地
 - Recipe 配方浏览：按目录树查看 `.rp` 文件及只读的 Header / Step / Config；基础层支持路径查找、类型识别与 JSON 读写
-- 无边框最大化窗口，支持重启与关闭
+- 主窗口启动即最大化；`System → Shut Down` 页提供重启与关闭操作（均需二次确认）
 
 ## 技术栈
 
@@ -92,7 +92,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 | `Home Page` | 首页 | 介绍占位页 |
 | `System → Status` | 设备状态 | 设备布局总览，点击模块打开详情 |
 | `System → Alarm List` | 告警列表 | 双条件查询、增删告警 |
-| `System → Operation Log` | 操作日志 | 时间、用户、操作只读列表，按时间倒序加载，支持刷新与记录数显示 |
+| `System → Operation Log` | 操作日志 | 时间、用户、操作只读列表，可按日期范围查询并分页（每页 5 条） |
 | `System → Shut Down` | 关机 | 关闭或重启（均需二次确认） |
 | `Recipe` | 配方 | 浏览 `.rp` 目录树，查看配方 Header、Step、Config |
 | `Setup → Hardware Monitor` | 硬件监视 | 选择模块查看 DI/DO，可切换 `WaferPresent` |
@@ -104,7 +104,7 @@ dotnet run --project .\TrackLabSimulator\TrackLabSimulator.csproj
 2. `Setup → Hardware Monitor` → 选择模块 → `Toggle WaferPresent`，观察 DI 值变化（表格本身只读）。
 3. `System → Alarm List` → 输入关键字 → `Query`（`Name` 与 `Message` 同时生效）→ `Cancel` 清空恢复全部。
 4. `Recipe` → 选择 `.rp` 配方 → 查看只读的 Header、Step、Config；点击 Step 中的 `Module Name` 或 `Recipe Name` 单元格可展开完整内容。
-5. `System → Operation Log` → 查看启动记录 → `Refresh` 重新读取数据库。切换到该页面时也会加载记录。
+5. `System → Operation Log` → 查看启动记录 → 选择起止日期 → `Query` 按范围查询并翻页 → `Refresh` 清空条件并恢复全部记录。切换到该页面时也会加载记录。
 
 ## 项目结构
 
@@ -193,9 +193,23 @@ TrackLabClient ──┬──> Core
 | `User` | 用户或来源 |
 | `Action` | 操作描述 |
 
-`AddOperationLog()` 写入并保存日志；`GetOperationLogs()` 以无跟踪查询读取全部记录，按 `Time` 降序返回。客户端目前只在启动时自动写入一条记录，尚未为其他界面操作统一记录日志；`User = System` 也不代表已实现用户登录。
+`DBManager` 提供以下读写入口，读取方法均以无跟踪查询按 `Time` 降序返回：
 
-操作日志页面为只读列表，切换进入时加载数据，也可手动刷新。当前没有筛选、分页、导出、删除或自动定时刷新；记录较多时仍会一次性读取全部数据。告警页继续使用内存中的演示数据，与操作日志表独立。
+| 方法 | 说明 |
+| --- | --- |
+| `AddOperationLog()` | 写入并保存一条日志 |
+| `GetOperationLogs()` | 读取全部记录 |
+| `GetOperationLogs(begin, end)` | 读取时间范围内的记录 |
+| `GetOperationLogs(begin, end, page, pageSize)` | 分页读取时间范围内的记录 |
+| `GetOperationLogCount(begin, end)` | 统计时间范围内的记录数 |
+
+操作日志页面为只读列表，切换进入或点击 `Refresh` 时会读取全部记录（不按日期过滤）。选择 `BeginTime` / `EndTime` 后点击 `Query` 按日期范围查询：
+
+- 范围按整天计算，即起始日 `00:00:00` 到结束日 `23:59:59.9999999`，两端闭区间。
+- 每页固定 5 条，`PreviousPage` / `NextPage` 翻页，底部显示 `1 / 3` 形式的页码；查询结果为空时显示 `0 / 0`，未查询时显示 `—`。
+- 起始日期晚于结束日期时，`Query` 直接返回，不会给出错误提示。
+
+顶部的数量标签（`CountLabel`）绑定的是 `Logs.Count`，即当前页的行数，不是查询结果总数。当前没有关键字筛选、跳转到指定页、每页条数设置、导出、删除或自动定时刷新。客户端目前只在启动时自动写入一条记录，尚未为其他界面操作统一记录日志；`User = System` 也不代表已实现用户登录。告警页继续使用内存中的演示数据，与操作日志表独立。
 
 ### Recipe 配方
 
@@ -272,15 +286,13 @@ Disabled → Idle
 | --- | --- |
 | TrackLabClient | 布局、详情、DI/DO 监视、告警、操作日志、关机、语言切换均已实现；首页为占位 |
 | Core | 模块反射加载、FSM、IO、菜单、告警、配置、多语言、Recipe 文件读写及 MySQL 操作日志访问已实现 |
-| 操作日志 | 启动写入、倒序只读查看和刷新已实现；筛选、分页与其他操作的自动记录待补充 |
+| 操作日志 | 启动写入、日期范围查询、分页与刷新已实现；关键字筛选、导出与其他操作的自动记录待补充 |
 | Recipe 页面 | 已实现 `.rp` 目录树和 Header / Step / Config 只读查看；尚无界面编辑与保存 |
 | UI | `ModuleControl`、`IODisplay`、转换器、两套主题已实现 |
 | TrackLabSimulator | 仅空窗口 |
 | 测试 | 尚无测试项目 |
 
 提交前请执行 `dotnet build TrackLab.sln --configuration Debug`。构建通过不等于功能验证，建议按“界面导览”手动回归关键路径。
-
-当前 `.gitignore` 的 `[Ll]og/` 规则也会匹配源码目录 `TrackLabClient/View/Log/`。操作日志页的 `OperationView.xaml`、`OperationView.xaml.cs`、`OperationViewModel.cs` 已存在于本地，但尚未纳入 Git 跟踪；发布相关菜单前需确保这三个文件一并提交，否则其他克隆副本无法取得页面实现。
 
 ## Roadmap
 
@@ -289,6 +301,6 @@ Disabled → Idle
 - [ ] IO / 状态 / 告警迁移到持久化存储
 - [ ] 实现 Simulator 仿真与通信
 - [ ] 告警查询接入真实数据，补充确认与清除流程
-- [ ] 为更多用户操作写入日志，增加日志筛选、分页与导出
-- [ ] 补充数据库连接与读写失败时的异常处理
+- [ ] 为更多用户操作写入日志，增加日志关键字筛选、跳页与导出
+- [ ] 补充数据库连接与读写失败、以及日志日期范围无效时的异常处理
 - [ ] 为 Core 层添加单元测试

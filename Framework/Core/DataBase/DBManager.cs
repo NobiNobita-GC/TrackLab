@@ -85,5 +85,17 @@ namespace Core.DataBase
                 .Take(pageSize)
                 .ToList();
         }
+
+        public int GetOperationLogCount(
+            DateTime beginTime,
+            DateTime endTime)
+        {
+            using TrackLabDbContext context = CreateContext();
+
+            return context.OperationLogs
+                .Count(log => log.Time >= beginTime &&
+                              log.Time <= endTime);
+        }
+
     }
 }
